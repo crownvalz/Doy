@@ -7,42 +7,63 @@
     <title>Login & Registration</title>
     <style>
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             background-color: #f8f9fa;
         }
         .form-container {
-            width: 400px;
+            max-width: 400px;
             padding: 20px;
             background-color: white;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+        .navbar {
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
 
-<div class="form-container">
-    <h2 class="text-center">Welcome</h2>
-    <div id="loginForm" class="mb-3">
-        <h5 class="text-center">Login</h5>
-        <input type="email" id="loginEmail" class="form-control mb-2" placeholder="Email" required>
-        <input type="password" id="loginPassword" class="form-control mb-2" placeholder="Password" required>
-        <button class="btn btn-primary w-100" id="loginBtn">Login</button>
-        <div class="text-center mt-2">
-            <a href="#" id="showRegister">Create an account</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="#">Bank Operations</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="index.html">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="home.html">Home</a>
+                </li>
+            </ul>
         </div>
     </div>
+</nav>
 
-    <div id="registerForm" class="mb-3 d-none">
-        <h5 class="text-center">Register</h5>
-        <input type="email" id="registerEmail" class="form-control mb-2" placeholder="Email" required>
-        <input type="password" id="registerPassword" class="form-control mb-2" placeholder="Password" required>
-        <button class="btn btn-success w-100" id="registerBtn">Register</button>
-        <div class="text-center mt-2">
-            <a href="#" id="showLogin">Already have an account?</a>
+<div class="container">
+    <div class="form-container">
+        <h2 class="text-center">Welcome</h2>
+        <div id="loginForm" class="mb-3">
+            <h5 class="text-center">Login</h5>
+            <input type="email" id="loginEmail" class="form-control mb-2" placeholder="Email" required>
+            <input type="password" id="loginPassword" class="form-control mb-2" placeholder="Password" required>
+            <button class="btn btn-primary w-100" id="loginBtn">Login</button>
+            <div class="text-center mt-2">
+                <a href="#" id="showRegister">Create an account</a>
+            </div>
+        </div>
+
+        <div id="registerForm" class="mb-3 d-none">
+            <h5 class="text-center">Register</h5>
+            <input type="email" id="registerEmail" class="form-control mb-2" placeholder="Email" required>
+            <input type="password" id="registerPassword" class="form-control mb-2" placeholder="Password" required>
+            <button class="btn btn-success w-100" id="registerBtn">Register</button>
+            <div class="text-center mt-2">
+                <a href="#" id="showLogin">Already have an account?</a>
+            </div>
         </div>
     </div>
 </div>
