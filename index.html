@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">  <title>Login & Registration</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Login & Registration</title>
     <style>
         body {
             background-color: #f8f9fa;
@@ -19,6 +20,15 @@
         .navbar {
             margin-bottom: 20px;
         }
+        .header-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #343a40;
+        }
+        .footer-text {
+            text-align: center;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -26,11 +36,11 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
         <a class="navbar-brand" href="#">Bank Operations</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
+            <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link active" href="index.html">Login</a>
                 </li>
@@ -44,12 +54,16 @@
 
 <div class="container">
     <div class="form-container">
-        <h2 class="text-center">Welcome</h2>
+        <h2 class="header-title">Welcome</h2>
         <div id="loginForm" class="mb-3">
             <h5 class="text-center">Login</h5>
-            <input type="email" id="loginEmail" class="form-control mb-2" placeholder="Email" required>
-            <input type="password" id="loginPassword" class="form-control mb-2" placeholder="Password" required>
-            <button class="btn btn-primary w-100" id="loginBtn">Login</button>
+            <div class="form-group">
+                <input type="email" id="loginEmail" class="form-control" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="loginPassword" class="form-control" placeholder="Password" required>
+            </div>
+            <button class="btn btn-primary btn-block" id="loginBtn">Login</button>
             <div class="text-center mt-2">
                 <a href="#" id="showRegister">Create an account</a>
             </div>
@@ -57,15 +71,26 @@
 
         <div id="registerForm" class="mb-3 d-none">
             <h5 class="text-center">Register</h5>
-            <input type="email" id="registerEmail" class="form-control mb-2" placeholder="Email" required>
-            <input type="password" id="registerPassword" class="form-control mb-2" placeholder="Password" required>
-            <button class="btn btn-success w-100" id="registerBtn">Register</button>
+            <div class="form-group">
+                <input type="email" id="registerEmail" class="form-control" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="registerPassword" class="form-control" placeholder="Password" required>
+            </div>
+            <button class="btn btn-success btn-block" id="registerBtn">Register</button>
             <div class="text-center mt-2">
                 <a href="#" id="showLogin">Already have an account?</a>
             </div>
         </div>
     </div>
+    <div class="footer-text">
+        <p>&copy; 2024 Bank Operations. All Rights Reserved.</p>
+    </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
