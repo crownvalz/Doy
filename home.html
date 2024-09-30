@@ -10,12 +10,33 @@
             background-color: #f8f9fa;
         }
         .container {
-            margin-top: 50px;
+            margin-top: 20px;
         }
         .header-title {
             text-align: center;
             margin-bottom: 20px;
             color: #343a40;
+        }
+        .sidebar {
+            background-color: #ffffff;
+            border-right: 1px solid #ddd;
+        }
+        .sidebar .nav-link {
+            color: #343a40;
+        }
+        .sidebar .nav-link:hover {
+            background-color: #f8f9fa;
+        }
+        .job-post {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: #ffffff;
+        }
+        .footer-text {
+            text-align: center;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -40,11 +61,52 @@
     </div>
 </nav>
 
-<div class="container">
-    <h1 class="header-title">Welcome to the Home Page</h1>
-    <p class="text-center">You are logged in!</p>
-    <div class="text-center">
-        <button id="logoutBtn" class="btn btn-danger">Logout</button>
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-3 col-lg-2 sidebar">
+            <div class="sidebar-sticky">
+                <h4 class="text-center mt-3">Menu</h4>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">My Applications</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Personal Information</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Settings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="logoutBtn">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <h1 class="header-title">Available Job Postings</h1>
+            <div id="jobPosts">
+                <div class="job-post">
+                    <h5>Job Title 1</h5>
+                    <p>Location: City A</p>
+                    <p>Description: Brief description of Job Title 1.</p>
+                    <button class="btn btn-primary">Apply</button>
+                </div>
+                <div class="job-post">
+                    <h5>Job Title 2</h5>
+                    <p>Location: City B</p>
+                    <p>Description: Brief description of Job Title 2.</p>
+                    <button class="btn btn-primary">Apply</button>
+                </div>
+                <div class="job-post">
+                    <h5>Job Title 3</h5>
+                    <p>Location: City C</p>
+                    <p>Description: Brief description of Job Title 3.</p>
+                    <button class="btn btn-primary">Apply</button>
+                </div>
+                <!-- Add more job postings as needed -->
+            </div>
+        </main>
     </div>
 </div>
 
