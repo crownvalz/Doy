@@ -20,7 +20,7 @@
         const user = sessionStorage.getItem('user');
         if (!user) {
             // If no user session found, redirect to the authentication page
-            window.location.href = 'login.html'; // Change 'login.html' to your authentication page name
+            window.location.href = 'login.html'; // Change to your login page name
         }
     </script>
 
@@ -59,8 +59,10 @@
 
     <script>
         function logout() {
+            // Clear the session storage
             sessionStorage.removeItem('user');
-            window.location.href = 'login.html'; // Change 'login.html' to your authentication page name
+            // Redirect to login.html
+            window.location.href = 'login.html'; // Change to your login page name
         }
     </script>
 
