@@ -80,11 +80,11 @@
 
 <body>
 
+    <!-- Responsive Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Bank Ops</a>
-            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -106,6 +106,7 @@
         </div>
     </nav>
 
+    <!-- Authentication Form -->
     <div class="container">
         <h2 class="text-center" id="formTitle">Login</h2>
         <form id="authForm">
@@ -123,89 +124,72 @@
         </form>
     </div>
 
+    <!-- Latest Bootstrap 5 JavaScript and dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
     <script type="module">
-        // Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
 
-// Your web app's Firebase configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyBe1HYgEzdcZj0ZOgimd1ODz8B-2aztUYs",
-    authDomain: "bank-operations-school.firebaseapp.com",
-    projectId: "bank-operations-school",
-    storageBucket: "bank-operations-school.appspot.com",
-    messagingSenderId: "292213603678",
-    appId: "1:292213603678:web:464bf951de870b94baa3cf"
-};
+        const firebaseConfig = {
+            apiKey: "AIzaSyBe1HYgEzdcZj0ZOgimd1ODz8B-2aztUYs",
+            authDomain: "bank-operations-school.firebaseapp.com",
+            projectId: "bank-operations-school",
+            storageBucket: "bank-operations-school.appspot.com",
+            messagingSenderId: "292213603678",
+            appId: "1:292213603678:web:464bf951de870b94baa3cf"
+        };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
 
-// Handle login form submission
-document.getElementById('authForm').addEventListener('submit', function (event) {
-    event.preventDefault();
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value.trim();
+        document.getElementById('authForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
 
-    const submitBtn = document.getElementById('submitBtn');
-    const errorMessage = document.getElementById('errorMessage');
+            const submitBtn = document.getElementById('submitBtn');
+            const errorMessage = document.getElementById('errorMessage');
 
-    // Check if email or password are empty
-    if (!email || !password) {
-        errorMessage.textContent = "Email and password cannot be empty.";
-        errorMessage.style.display = 'block';
-        return;
-    }
+            if (submitBtn.textContent === "Login") {
+                signInWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        // Store user session
+                        sessionStorage.setItem('user', JSON.stringify(userCredential.user));
+                        // Redirect to home.html
+                        window.location.href = 'home.html';
+                    })
+                    .catch((error) => {
+                        errorMessage.textContent = error.message;
+                        errorMessage.style.display = 'block';
+                    });
+            } else {
+                createUserWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        alert("Registration successful! Welcome, " + userCredential.user.email);
+                    })
+                    .catch((error) => {
+                        errorMessage.textContent = error.message;
+                        errorMessage.style.display = 'block';
+                    });
+            }
+        });
 
-    if (submitBtn.textContent === "Login") {
-        // Attempt to sign in the user
-        signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                // Store user info in session storage
-                sessionStorage.setItem('user', JSON.stringify({ email: user.email }));
-                window.location.href = 'home.html'; // Redirect to home.html
-            })
-            .catch((error) => {
-                const errorMessageText = error.message;
-                errorMessage.textContent = errorMessageText;
-                errorMessage.style.display = 'block';
-            });
-    } else {
-        // Attempt to create a new user
-        createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                // Store user info in session storage
-                sessionStorage.setItem('user', JSON.stringify({ email: user.email }));
-                window.location.href = 'home.html'; // Redirect to home.html
-            })
-            .catch((error) => {
-                const errorMessageText = error.message;
-                errorMessage.textContent = errorMessageText;
-                errorMessage.style.display = 'block';
-            });
-    }
-});
+        document.getElementById('registerLink').addEventListener('click', function () {
+            const formTitle = document.getElementById('formTitle');
+            const submitBtn = document.getElementById('submitBtn');
+            const registerLink = document.getElementById('registerLink');
 
-// Handle register link click to toggle between login and registration
-document.getElementById('registerLink').addEventListener('click', function () {
-    const formTitle = document.getElementById('formTitle');
-    const submitBtn = document.getElementById('submitBtn');
-    const registerLink = document.getElementById('registerLink');
-
-    if (submitBtn.textContent === "Login") {
-        formTitle.textContent = "Register";
-        submitBtn.textContent = "Register";
-        registerLink.textContent = "Already have an account? Login here";
-    } else {
-        formTitle.textContent = "Login";
-        submitBtn.textContent = "Login";
-        registerLink.textContent = "Don't have an account? Register here";
-    }
-});
+            if (submitBtn.textContent === "Login") {
+                formTitle.textContent = "Register";
+                submitBtn.textContent = "Register";
+                registerLink.textContent = "Already have an account? Login here";
+            } else {
+                formTitle.textContent = "Login";
+                submitBtn.textContent = "Login";
+                registerLink.textContent = "Don't have an account? Register here";
+            }
+        });
     </script>
 </body>
 
