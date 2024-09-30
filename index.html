@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -83,9 +83,9 @@
 
             try {
                 await signInWithEmailAndPassword(auth, email, password);
-                window.location.href = 'home.html';
+                window.location.href = 'home.html'; // Redirect to home page on success
             } catch (error) {
-                alert(error.message);
+                alert(`Login failed: ${error.message}`);
             }
         }
 
@@ -99,7 +99,7 @@
                 alert("Registration successful! You can now log in.");
                 toggleForms();
             } catch (error) {
-                alert(error.message);
+                alert(`Registration failed: ${error.message}`);
             }
         }
     </script>
