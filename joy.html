@@ -129,67 +129,80 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
     <script type="module">
-        // Firebase initialization and authentication handling
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyBe1HYgEzdcZj0ZOgimd1ODz8B-2aztUYs",
-            authDomain: "bank-operations-school.firebaseapp.com",
-            projectId: "bank-operations-school",
-            storageBucket: "bank-operations-school.appspot.com",
-            messagingSenderId: "292213603678",
-            appId: "1:292213603678:web:464bf951de870b94baa3cf"
-        };
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyBe1HYgEzdcZj0ZOgimd1ODz8B-2aztUYs",
+        authDomain: "bank-operations-school.firebaseapp.com",
+        projectId: "bank-operations-school",
+        storageBucket: "bank-operations-school.appspot.com",
+        messagingSenderId: "292213603678",
+        appId: "1:292213603678:web:464bf951de870b94baa3cf"
+    };
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-        document.getElementById('authForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+    // Handle login and registration form submission
+    document.getElementById('authForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
 
-            const submitBtn = document.getElementById('submitBtn');
-            const errorMessage = document.getElementById('errorMessage');
+        const submitBtn = document.getElementById('submitBtn');
+        const errorMessage = document.getElementById('errorMessage');
 
-            if (submitBtn.textContent === "Login") {
-                signInWithEmailAndPassword(auth, email, password)
-                    .then((userCredential) => {
-                        alert("Login successful! Welcome, " + userCredential.user.email);
-                    })
-                    .catch((error) => {
-                        errorMessage.textContent = error.message;
-                        errorMessage.style.display = 'block';
-                    });
-            } else {
-                createUserWithEmailAndPassword(auth, email, password)
-                    .then((userCredential) => {
-                        alert("Registration successful! Welcome, " + userCredential.user.email);
-                    })
-                    .catch((error) => {
-                        errorMessage.textContent = error.message;
-                        errorMessage.style.display = 'block';
-                    });
-            }
-        });
+        if (submitBtn.textContent === "Login") {
+            // Handle login
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Redirect to home.html after successful login
+                    window.location.href = 'home.html';
+                })
+                .catch((error) => {
+                    // Display error message if login fails
+                    const errorMessageText = error.message;
+                    errorMessage.textContent = errorMessageText;
+                    errorMessage.style.display = 'block';
+                });
+        } else {
+            // Handle registration
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Redirect to home.html after successful registration
+                    window.location.href = 'home.html';
+                })
+                .catch((error) => {
+                    // Display error message if registration fails
+                    const errorMessageText = error.message;
+                    errorMessage.textContent = errorMessageText;
+                    errorMessage.style.display = 'block';
+                });
+        }
+    });
 
-        document.getElementById('registerLink').addEventListener('click', function () {
-            const formTitle = document.getElementById('formTitle');
-            const submitBtn = document.getElementById('submitBtn');
-            const registerLink = document.getElementById('registerLink');
+    // Handle register link click
+    document.getElementById('registerLink').addEventListener('click', function() {
+        const formTitle = document.getElementById('formTitle');
+        const submitBtn = document.getElementById('submitBtn');
+        const registerLink = document.getElementById('registerLink');
 
-            if (submitBtn.textContent === "Login") {
-                formTitle.textContent = "Register";
-                submitBtn.textContent = "Register";
-                registerLink.textContent = "Already have an account? Login here";
-            } else {
-                formTitle.textContent = "Login";
-                submitBtn.textContent = "Login";
-                registerLink.textContent = "Don't have an account? Register here";
-            }
-        });
-    </script>
+        // Toggle between login and registration form
+        if (submitBtn.textContent === "Login") {
+            formTitle.textContent = "Register";
+            submitBtn.textContent = "Register";
+            registerLink.textContent = "Already have an account? Login here";
+        } else {
+            formTitle.textContent = "Login";
+            submitBtn.textContent = "Login";
+            registerLink.textContent = "Don't have an account? Register here";
+        }
+    });
+</script>
 </body>
 
 </html>
