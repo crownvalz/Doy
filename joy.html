@@ -9,6 +9,7 @@
         body {
             background-color: #f4f4f4;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -42,21 +43,23 @@
         .form-toggle {
             display: none;
         }
-        .brand-name {
+        nav {
+            width: 100%;
+            background-color: #007bff;
+            padding: 15px;
+            color: white;
+        }
+        nav .navbar-brand {
             font-size: 1.5rem;
             font-weight: bold;
+            color: white;
             text-align: center;
-            color: #333;
-            margin-bottom: 30px;
+            width: 100%;
         }
         @media (max-width: 575.98px) {
             .form-container {
                 padding: 30px;
                 width: 100%;
-            }
-            .brand-name {
-                font-size: 1.2rem;
-                margin-bottom: 20px;
             }
         }
         @media (max-width: 767.98px) {
@@ -69,9 +72,15 @@
 </head>
 <body>
 
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+        <span class="navbar-brand mx-auto">Safe Bank Plc</span>
+    </div>
+</nav>
+
+<!-- Login & Registration Forms -->
 <div class="form-container">
-    <div class="brand-name">Safe Bank Plc</div>
-    
     <div id="loginForm">
         <h2>Login</h2>
         <form>
