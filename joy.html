@@ -8,72 +8,27 @@
     <style>
         body {
             background-color: #f4f4f4;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
             height: 100vh;
             margin: 0;
         }
         .form-container {
-            background-color: white;
+            max-width: 400px;
+            margin: auto;
+            margin-top: 100px;
             padding: 40px;
+            background-color: white;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            max-width: 100%;
-            width: 400px;
-            margin: 20px;
-        }
-        .form-container h2 {
-            margin-bottom: 20px;
-            font-weight: bold;
-            text-align: center;
-        }
-        .form-container .switch-btn {
-            color: #007bff;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .form-container .switch-btn:hover {
-            text-decoration: underline;
-        }
-        .form-container .btn-primary {
-            width: 100%;
         }
         .form-toggle {
             display: none;
-        }
-        nav {
-            width: 100%;
-            background-color: #007bff;
-            padding: 15px;
-            color: white;
-        }
-        nav .navbar-brand {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: white;
-            text-align: center;
-            width: 100%;
-        }
-        @media (max-width: 575.98px) {
-            .form-container {
-                padding: 30px;
-                width: 100%;
-            }
-        }
-        @media (max-width: 767.98px) {
-            .form-container {
-                padding: 30px;
-                width: 90%;
-            }
         }
     </style>
 </head>
 <body>
 
-<!-- Navigation Bar -->
-<nav class="navbar navbar-expand-lg navbar-dark">
+<!-- Sticky Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
     <div class="container-fluid">
         <span class="navbar-brand mx-auto">Safe Bank Plc</span>
     </div>
@@ -82,7 +37,7 @@
 <!-- Login & Registration Forms -->
 <div class="form-container">
     <div id="loginForm">
-        <h2>Login</h2>
+        <h2 class="text-center">Login</h2>
         <form>
             <div class="mb-3">
                 <label for="loginEmail" class="form-label">Email address</label>
@@ -92,13 +47,13 @@
                 <label for="loginPassword" class="form-label">Password</label>
                 <input type="password" class="form-control" id="loginPassword" placeholder="Password" required>
             </div>
-            <button type="submit" class="btn btn-primary">Login</button>
-            <p class="text-center mt-3">Don't have an account? <span class="switch-btn" onclick="toggleForms()">Register here</span></p>
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+            <p class="text-center mt-3">Don't have an account? <span class="switch-btn text-primary" style="cursor: pointer;" onclick="toggleForms()">Register here</span></p>
         </form>
     </div>
 
     <div id="registerForm" class="form-toggle">
-        <h2>Register</h2>
+        <h2 class="text-center">Register</h2>
         <form>
             <div class="mb-3">
                 <label for="registerName" class="form-label">Full Name</label>
@@ -112,8 +67,8 @@
                 <label for="registerPassword" class="form-label">Password</label>
                 <input type="password" class="form-control" id="registerPassword" placeholder="Password" required>
             </div>
-            <button type="submit" class="btn btn-primary">Register</button>
-            <p class="text-center mt-3">Already have an account? <span class="switch-btn" onclick="toggleForms()">Login here</span></p>
+            <button type="submit" class="btn btn-primary w-100">Register</button>
+            <p class="text-center mt-3">Already have an account? <span class="switch-btn text-primary" style="cursor: pointer;" onclick="toggleForms()">Login here</span></p>
         </form>
     </div>
 </div>
