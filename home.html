@@ -1,1 +1,71 @@
- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Bank Operations</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 100px;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="text-center">Welcome to the Bank Operations</h2>
+        <p class="text-center">You are logged in!</p>
+        <button id="logoutBtn" class="btn btn-danger btn-block">Logout</button>
+    </div>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBe1HYgEzdcZj0ZOgimd1ODz8B-2aztUYs",
+            authDomain: "bank-operations-school.firebaseapp.com",
+            projectId: "bank-operations-school",
+            storageBucket: "bank-operations-school.appspot.com",
+            messagingSenderId: "292213603678",
+            appId: "1:292213603678:web:464bf951de870b94baa3cf"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Check if the user is logged in
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in
+                console.log("User is logged in:", user.email);
+            } else {
+                // No user is signed in, redirect to login
+                window.location.href = 'index.html'; // Adjust to your login page's filename
+            }
+        });
+
+        // Handle logout button click
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            signOut(auth).then(() => {
+                // Sign-out successful, redirect to login
+                window.location.href = 'index.html'; // Adjust to your login page's filename
+            }).catch((error) => {
+                console.error("Error signing out:", error);
+            });
+        });
+    </script>
+</body>
+</html>
