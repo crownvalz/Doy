@@ -4,33 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <title>Home</title>
+    <title>Job Portal</title>
     <style>
         body {
             background-color: #f8f9fa;
         }
         .container {
-            margin-top: 20px;
+            margin-top: 30px;
         }
-        .header-title {
-            text-align: center;
+        .job-card {
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            padding: 20px;
             margin-bottom: 20px;
-            color: #343a40;
+            transition: transform 0.2s;
         }
-        .sidebar {
-            background-color: #ffffff;
-            border-right: 1px solid #ddd;
+        .job-card:hover {
+            transform: scale(1.02);
         }
-        .job-post {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
-            background-color: #ffffff;
+        .btn-apply {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-apply:hover {
+            background-color: #0056b3;
         }
         .footer-text {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 30px;
+            padding: 20px 0;
+            background-color: #007bff;
+            color: white;
         }
     </style>
 </head>
@@ -38,17 +42,17 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-        <a class="navbar-brand" href="index.html">Bank Operations</a>
+        <a class="navbar-brand" href="#">Job Portal</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="home.html">Dashboard</a>
+                    <a class="nav-link active" href="home.html">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="profile.html">Profile</a>
+                    <a class="nav-link" href="profile.html">Profile</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="applications.html">My Applications</a>
@@ -67,61 +71,57 @@
     </div>
 </nav>
 
-
-
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-            <h1 class="header-title">Available Job Postings</h1>
-            <div id="jobPosts">
-                <div class="job-post">
-                    <h5>Job Title 1</h5>
-                    <p>Location: City A</p>
-                    <p>Description: Brief description of Job Title 1.</p>
-                    <button class="btn btn-primary">Apply</button>
-                </div>
-                <div class="job-post">
-                    <h5>Job Title 2</h5>
-                    <p>Location: City B</p>
-                    <p>Description: Brief description of Job Title 2.</p>
-                    <button class="btn btn-primary">Apply</button>
-                </div>
-                <div class="job-post">
-                    <h5>Job Title 3</h5>
-                    <p>Location: City C</p>
-                    <p>Description: Brief description of Job Title 3.</p>
-                    <button class="btn btn-primary">Apply</button>
-                </div>
-                <!-- Add more job postings as needed -->
+<div class="container">
+    <h2 class="text-center mb-4">Job Listings</h2>
+    <div class="row">
+        <!-- Job Listing 1 -->
+        <div class="col-md-4">
+            <div class="job-card">
+                <h5>Software Engineer</h5>
+                <p class="text-muted">Company: Tech Innovations</p>
+                <p><strong>Location:</strong> San Francisco, CA</p>
+                <p><strong>Salary:</strong> $100,000 - $120,000</p>
+                <p>Looking for a skilled software engineer with experience in full-stack development.</p>
+                <button class="btn btn-apply">Apply Now</button>
             </div>
-        </main>
+        </div>
+        <!-- Job Listing 2 -->
+        <div class="col-md-4">
+            <div class="job-card">
+                <h5>Data Analyst</h5>
+                <p class="text-muted">Company: Data Solutions</p>
+                <p><strong>Location:</strong> New York, NY</p>
+                <p><strong>Salary:</strong> $80,000 - $100,000</p>
+                <p>Seeking a data analyst to help analyze and interpret complex datasets.</p>
+                <button class="btn btn-apply">Apply Now</button>
+            </div>
+        </div>
+        <!-- Job Listing 3 -->
+        <div class="col-md-4">
+            <div class="job-card">
+                <h5>Project Manager</h5>
+                <p class="text-muted">Company: Management Pros</p>
+                <p><strong>Location:</strong> Remote</p>
+                <p><strong>Salary:</strong> $90,000 - $110,000</p>
+                <p>Looking for an experienced project manager to oversee projects from start to finish.</p>
+                <button class="btn btn-apply">Apply Now</button>
+            </div>
+        </div>
+        <!-- Additional job listings can be added here -->
     </div>
+</div>
+
+<div class="footer-text">
+    <p>&copy; 2024 Job Portal. All rights reserved.</p>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyBe1HYgEzdcZj0ZOgimd1ODz8B-2aztUYs",
-        authDomain: "bank-operations-school.firebaseapp.com",
-        projectId: "bank-operations-school",
-        storageBucket: "bank-operations-school.appspot.com",
-        messagingSenderId: "292213603678",
-        appId: "1:292213603678:web:464bf951de870b94baa3cf"
-    };
-
-    const app = initializeApp(firebaseConfig);
+    import { getAuth } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
     const auth = getAuth();
-
-    onAuthStateChanged(auth, (user) => {
-        if (!user) {
-            window.location = "index.html"; // Redirect to login if not logged in
-        }
-    });
-
+    
     document.getElementById("logoutBtn").addEventListener("click", async () => {
         await signOut(auth);
         window.location = "index.html"; // Redirect to login page after logout
