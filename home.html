@@ -15,20 +15,9 @@
 
 <body>
 
-    <script>
-        // Check user session
-        const user = sessionStorage.getItem('user');
-        if (!user) {
-            window.location.href = 'login.html'; // Redirect to login if no session
-        }
-    </script>
-
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Bank Ops</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
@@ -57,11 +46,17 @@
     </div>
 
     <script>
+        // Check user session
+        const user = sessionStorage.getItem('user');
+        if (!user) {
+            window.location.href = 'login.html'; // Redirect to login if no session
+        }
+
         function logout() {
             // Clear the session storage
             sessionStorage.removeItem('user');
             // Redirect to login.html
-            window.location.href = 'login.html'; // Change to your login page name
+            window.location.href = 'login.html';
         }
     </script>
 
