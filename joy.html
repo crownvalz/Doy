@@ -3,187 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login and Registration</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
-    <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js"></script>
-    <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js"></script>
-    <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js"></script>
+    <title>Login & Registration Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f0f2f5;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
-        .container {
-            margin-top: 100px;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        .form-container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 400px;
         }
-        .form-title {
+        .form-container h2 {
             margin-bottom: 20px;
+            font-weight: bold;
         }
-        .toggle-link {
-            margin-top: 15px;
-            text-align: center;
+        .form-container .switch-btn {
+            color: #007bff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .form-container .switch-btn:hover {
+            text-decoration: underline;
+        }
+        .form-container .btn-primary {
+            width: 100%;
+        }
+        .form-toggle {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2 class="text-center form-title" id="formTitle">Register</h2>
-        <form id="registerForm" novalidate>
-            <div class="mb-3">
-                <label for="name" class="form-label">Name:</label>
-                <input type="text" class="form-control" id="name" placeholder="Enter your name" required>
-                <div class="invalid-feedback">Please enter your name.</div>
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email:</label>
-                <input type="email" class="form-control" id="email" placeholder="Enter email" required>
-                <div class="invalid-feedback">Please enter a valid email.</div>
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Password:</label>
-                <input type="password" class="form-control" id="password" placeholder="Enter password" required minlength="6">
-                <div class="invalid-feedback">Please enter a password with at least 6 characters.</div>
-            </div>
-            <div class="mb-3">
-                <label for="phone" class="form-label">Phone Number:</label>
-                <input type="tel" class="form-control" id="phone" placeholder="Enter phone number" required>
-                <div class="invalid-feedback">Please enter your phone number.</div>
-            </div>
-            <button type="submit" class="btn btn-primary btn-block">Register</button>
-            <div id="errorMessage" class="text-danger mt-2" style="display: none;"></div>
-        </form>
 
-        <form id="loginForm" class="d-none" novalidate>
-            <h2 class="text-center form-title" id="formTitle">Login</h2>
+<div class="form-container">
+    <div id="loginForm">
+        <h2>Login</h2>
+        <form>
             <div class="mb-3">
-                <label for="loginEmail" class="form-label">Email:</label>
+                <label for="loginEmail" class="form-label">Email address</label>
                 <input type="email" class="form-control" id="loginEmail" placeholder="Enter email" required>
-                <div class="invalid-feedback">Please enter a valid email.</div>
             </div>
             <div class="mb-3">
-                <label for="loginPassword" class="form-label">Password:</label>
-                <input type="password" class="form-control" id="loginPassword" placeholder="Enter password" required minlength="6">
-                <div class="invalid-feedback">Please enter a password with at least 6 characters.</div>
+                <label for="loginPassword" class="form-label">Password</label>
+                <input type="password" class="form-control" id="loginPassword" placeholder="Password" required>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Login</button>
-            <div id="loginErrorMessage" class="text-danger mt-2" style="display: none;"></div>
+            <button type="submit" class="btn btn-primary">Login</button>
+            <p class="text-center mt-3">Don't have an account? <span class="switch-btn" onclick="toggleForms()">Register here</span></p>
         </form>
-
-        <p class="toggle-link" id="toggleLink">
-            Don't have an account? <a href="#" id="showRegister">Register here</a>
-        </p>
-        <p class="toggle-link d-none" id="toggleLinkLogin">
-            Already have an account? <a href="#" id="showLogin">Login here</a>
-        </p>
     </div>
 
-    <script type="module">
-        // Import Firebase libraries
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
-        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+    <div id="registerForm" class="form-toggle">
+        <h2>Register</h2>
+        <form>
+            <div class="mb-3">
+                <label for="registerName" class="form-label">Full Name</label>
+                <input type="text" class="form-control" id="registerName" placeholder="Enter full name" required>
+            </div>
+            <div class="mb-3">
+                <label for="registerEmail" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="registerEmail" placeholder="Enter email" required>
+            </div>
+            <div class="mb-3">
+                <label for="registerPassword" class="form-label">Password</label>
+                <input type="password" class="form-control" id="registerPassword" placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+            <p class="text-center mt-3">Already have an account? <span class="switch-btn" onclick="toggleForms()">Login here</span></p>
+        </form>
+    </div>
+</div>
 
-        // Your Firebase configuration object
-        const firebaseConfig = {
-            apiKey: "AIzaSyBe1HYgEzdcZj0ZOgimd1ODz8B-2aztUYs",
-            authDomain: "bank-operations-school.firebaseapp.com",
-            projectId: "bank-operations-school",
-            storageBucket: "bank-operations-school.appspot.com",
-            messagingSenderId: "292213603678",
-            appId: "1:292213603678:web:464bf951de870b94baa3cf"
-        };
+<script>
+    function toggleForms() {
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        loginForm.classList.toggle('form-toggle');
+        registerForm.classList.toggle('form-toggle');
+    }
+</script>
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        // Handle registration form submission
-        document.getElementById('registerForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            // Check form validity
-            if (this.checkValidity() === false) {
-                event.stopPropagation();
-            } else {
-                const name = document.getElementById('name').value;
-                const email = document.getElementById('email').value;
-                const password = document.getElementById('password').value;
-                const phone = document.getElementById('phone').value;
-                const errorMessage = document.getElementById('errorMessage');
-
-                // Register the user with email and password
-                createUserWithEmailAndPassword(auth, email, password)
-                    .then((userCredential) => {
-                        const user = userCredential.user;
-                        // Store additional user information in Firestore
-                        return setDoc(doc(db, "users", user.uid), {
-                            uid: user.uid,
-                            name: name,
-                            email: email,
-                            phone: phone
-                        });
-                    })
-                    .then(() => {
-                        alert("Registration successful!");
-                        // Redirect to the login page
-                        window.location.href = "login.html"; // Change this to your actual login page URL
-                    })
-                    .catch((error) => {
-                        errorMessage.textContent = error.message;
-                        errorMessage.style.display = 'block';
-                    });
-            }
-            this.classList.add('was-validated');
-        });
-
-        // Handle login form submission
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            // Check form validity
-            if (this.checkValidity() === false) {
-                event.stopPropagation();
-            } else {
-                const email = document.getElementById('loginEmail').value;
-                const password = document.getElementById('loginPassword').value;
-                const loginErrorMessage = document.getElementById('loginErrorMessage');
-
-                // Log in the user with email and password
-                signInWithEmailAndPassword(auth, email, password)
-                    .then(() => {
-                        alert("Login successful!");
-                        // Redirect to the home page or another page
-                        window.location.href = "home.html"; // Change this to your actual home page URL
-                    })
-                    .catch((error) => {
-                        loginErrorMessage.textContent = error.message;
-                        loginErrorMessage.style.display = 'block';
-                    });
-            }
-            this.classList.add('was-validated');
-        });
-
-        // Show registration form
-        document.getElementById('showRegister').addEventListener('click', function(event) {
-            event.preventDefault();
-            document.getElementById('registerForm').classList.remove('d-none');
-            document.getElementById('loginForm').classList.add('d-none');
-            document.getElementById('toggleLink').classList.remove('d-none');
-            document.getElementById('toggleLinkLogin').classList.add('d-none');
-            document.getElementById('formTitle').innerText = 'Register';
-        });
-
-        // Show login form
-        document.getElementById('showLogin').addEventListener('click', function(event) {
-            event.preventDefault();
-            document.getElementById('loginForm').classList.remove('d-none');
-            document.getElementById('registerForm').classList.add('d-none');
-            document.getElementById('toggleLink').classList.add('d-none');
-            document.getElementById('toggleLinkLogin').classList.remove('d-none');
-            document.getElementById('formTitle').innerText = 'Login';
-        });
-    </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
