@@ -33,7 +33,7 @@
                         <a class="nav-link" href="#">Contact</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="logout()">Logout</a>
+                        <a class="nav-link" href="#" id="logoutBtn">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -46,18 +46,17 @@
     </div>
 
     <script>
-        // Check user session
-        const user = sessionStorage.getItem('user');
+        // Ensure the user is logged in
+        const user = localStorage.getItem('user');
         if (!user) {
             window.location.href = 'login.html'; // Redirect to login if no session
         }
 
-        function logout() {
-            // Clear the session storage
-            sessionStorage.removeItem('user');
-            // Redirect to login.html
-            window.location.href = 'login.html';
-        }
+        // Logout function
+        document.getElementById('logoutBtn').addEventListener('click', function () {
+            localStorage.removeItem('user'); // Clear the local storage
+            window.location.href = 'login.html'; // Redirect to login
+        });
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
