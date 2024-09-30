@@ -24,50 +24,6 @@
             border: none;
         }
 
-        .navbar-toggler-icon {
-            background-image: none;
-            position: relative;
-            width: 24px;
-            height: 2px;
-            background-color: #fff;
-            transition: all 0.3s;
-        }
-
-        .navbar-toggler.collapsed .navbar-toggler-icon {
-            background-color: transparent;
-        }
-
-        .navbar-toggler.collapsed .navbar-toggler-icon::before,
-        .navbar-toggler.collapsed .navbar-toggler-icon::after {
-            content: '';
-            position: absolute;
-            width: 24px;
-            height: 2px;
-            background-color: #fff;
-        }
-
-        .navbar-toggler.collapsed .navbar-toggler-icon::before {
-            top: 0;
-        }
-
-        .navbar-toggler.collapsed .navbar-toggler-icon::after {
-            bottom: 0;
-        }
-
-        .navbar-toggler:not(.collapsed) .navbar-toggler-icon {
-            background-color: transparent;
-        }
-
-        .navbar-toggler:not(.collapsed) .navbar-toggler-icon::before {
-            transform: rotate(45deg);
-            top: 0;
-        }
-
-        .navbar-toggler:not(.collapsed) .navbar-toggler-icon::after {
-            transform: rotate(-45deg);
-            bottom: 0;
-        }
-
         .container {
             margin-top: 100px;
             background-color: #ffffff;
@@ -84,7 +40,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Bank Ops</a>
-            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -142,6 +98,11 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+
+        // Redirect if user session already exists
+        if (sessionStorage.getItem('user')) {
+            window.location.href = 'home.html';
+        }
 
         document.getElementById('authForm').addEventListener('submit', function (event) {
             event.preventDefault();
