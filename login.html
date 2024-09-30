@@ -32,7 +32,7 @@
 
 <body>
 
-    <!-- Responsive Navbar -->
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Bank Ops</a>
@@ -75,15 +75,13 @@
         </div>
     </div>
 
-    <!-- Latest Bootstrap 5 JavaScript and dependencies -->
+    <!-- Bootstrap and JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
     <script type="module">
-        // Import Firebase
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
 
-        // Your Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBe1HYgEzdcZj0ZOgimd1ODz8B-2aztUYs",
             authDomain: "bank-operations-school.firebaseapp.com",
@@ -93,17 +91,14 @@
             appId: "1:292213603678:web:464bf951de870b94baa3cf"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        // Form handling
         const loginForm = document.getElementById('authForm');
         const registerForm = document.getElementById('registerForm');
         const errorMessage = document.getElementById('errorMessage');
         const registerErrorMessage = document.getElementById('registerErrorMessage');
 
-        // Login logic
         loginForm.addEventListener('submit', function (event) {
             event.preventDefault();
             const email = document.getElementById('email').value;
@@ -111,8 +106,9 @@
 
             signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
-                    sessionStorage.setItem('user', JSON.stringify(userCredential.user));
-                    window.location.href = 'home.html'; // Redirect to home on success
+                    // Use localStorage for better cross-browser compatibility
+                    localStorage.setItem('user', JSON.stringify(userCredential.user));
+                    window.location.href = 'home.html';
                 })
                 .catch((error) => {
                     errorMessage.textContent = error.message;
@@ -120,7 +116,6 @@
                 });
         });
 
-        // Register logic
         document.getElementById('registerAuthForm').addEventListener('submit', function (event) {
             event.preventDefault();
             const email = document.getElementById('regEmail').value;
@@ -129,8 +124,8 @@
             createUserWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
                     alert('Registration successful! Welcome, ' + userCredential.user.email);
-                    sessionStorage.setItem('user', JSON.stringify(userCredential.user));
-                    window.location.href = 'home.html'; // Redirect to home on success
+                    localStorage.setItem('user', JSON.stringify(userCredential.user));
+                    window.location.href = 'home.html';
                 })
                 .catch((error) => {
                     registerErrorMessage.textContent = error.message;
@@ -138,7 +133,6 @@
                 });
         });
 
-        // Toggle between Login and Register forms
         document.getElementById('registerLink').addEventListener('click', function () {
             loginForm.style.display = 'none';
             registerForm.style.display = 'block';
@@ -149,9 +143,8 @@
             registerForm.style.display = 'none';
         });
 
-        // Check if user is already logged in
-        if (sessionStorage.getItem('user')) {
-            window.location.href = 'home.html'; // Redirect to home if already logged in
+        if (localStorage.getItem('user')) {
+            window.location.href = 'home.html';
         }
     </script>
 </body>
