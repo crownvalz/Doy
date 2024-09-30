@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration Page</title>
+    <title>Login and Registration Page</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
     <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js"></script>
     <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js"></script>
@@ -48,13 +48,35 @@
             <button type="submit" class="btn btn-primary btn-block">Register</button>
             <div id="errorMessage" class="text-danger mt-2" style="display: none;"></div>
         </form>
-        <p class="mt-3 text-center">Already have an account? <a href="login.html" id="showLogin">Login here</a></p>
+        
+        <form id="loginForm" class="d-none" novalidate>
+            <h2 class="text-center" id="formTitle">Login</h2>
+            <div class="mb-3">
+                <label for="loginEmail" class="form-label">Email:</label>
+                <input type="email" class="form-control" id="loginEmail" placeholder="Enter email" required>
+                <div class="invalid-feedback">Please enter a valid email.</div>
+            </div>
+            <div class="mb-3">
+                <label for="loginPassword" class="form-label">Password:</label>
+                <input type="password" class="form-control" id="loginPassword" placeholder="Enter password" required minlength="6">
+                <div class="invalid-feedback">Please enter a password with at least 6 characters.</div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
+            <div id="loginErrorMessage" class="text-danger mt-2" style="display: none;"></div>
+        </form>
+        
+        <p class="mt-3 text-center" id="toggleLink">
+            Don't have an account? <a href="#" id="showRegister">Register here</a>
+        </p>
+        <p class="mt-3 text-center d-none" id="toggleLinkLogin">
+            Already have an account? <a href="#" id="showLogin">Login here</a>
+        </p>
     </div>
 
     <script type="module">
         // Import Firebase libraries
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
         import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
 
         // Your Firebase configuration object
@@ -110,9 +132,50 @@
             this.classList.add('was-validated');
         });
 
-        // Show login form link
+        // Handle login form submission
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            // Check form validity
+            if (this.checkValidity() === false) {
+                event.stopPropagation();
+            } else {
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+                const loginErrorMessage = document.getElementById('loginErrorMessage');
+
+                // Log in the user with email and password
+                signInWithEmailAndPassword(auth, email, password)
+                    .then(() => {
+                        alert("Login successful!");
+                        // Redirect to the home page or another page
+                        window.location.href = "home.html"; // Change this to your actual home page URL
+                    })
+                    .catch((error) => {
+                        loginErrorMessage.textContent = error.message;
+                        loginErrorMessage.style.display = 'block';
+                    });
+            }
+            this.classList.add('was-validated');
+        });
+
+        // Show registration form
+        document.getElementById('showRegister').addEventListener('click', function(event) {
+            event.preventDefault();
+            document.getElementById('registerForm').classList.remove('d-none');
+            document.getElementById('loginForm').classList.add('d-none');
+            document.getElementById('toggleLink').classList.remove('d-none');
+            document.getElementById('toggleLinkLogin').classList.add('d-none');
+            document.getElementById('formTitle').innerText = 'Register';
+        });
+
+        // Show login form
         document.getElementById('showLogin').addEventListener('click', function(event) {
-            // Already set to redirect to login.html
+            event.preventDefault();
+            document.getElementById('loginForm').classList.remove('d-none');
+            document.getElementById('registerForm').classList.add('d-none');
+            document.getElementById('toggleLink').classList.add('d-none');
+            document.getElementById('toggleLinkLogin').classList.remove('d-none');
+            document.getElementById('formTitle').innerText = 'Login';
         });
     </script>
 </body>
