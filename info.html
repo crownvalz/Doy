@@ -1,1 +1,152 @@
- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Personal Information</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 20px;
+            max-width: 600px;
+        }
+        .header-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #343a40;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .footer-text {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="#">Bank Operations</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="personal_info.html">Personal Information</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="logoutBtn">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <h1 class="header-title">Edit Personal Information</h1>
+    <form id="personalInfoForm">
+        <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input type="text" class="form-control" id="fullName" placeholder="Enter your full name" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number" required>
+        </div>
+        <div class="form-group">
+            <label for="address">Address</label>
+            <input type="text" class="form-control" id="address" placeholder="Enter your address" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Save Changes</button>
+    </form>
+</div>
+
+<div class="footer-text">
+    <p>&copy; 2024 Bank Operations. All rights reserved.</p>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBe1HYgEzdcZj0ZOgimd1ODz8B-2aztUYs",
+        authDomain: "bank-operations-school.firebaseapp.com",
+        projectId: "bank-operations-school",
+        storageBucket: "bank-operations-school.appspot.com",
+        messagingSenderId: "292213603678",
+        appId: "1:292213603678:web:464bf951de870b94baa3cf"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+    const db = getFirestore();
+
+    // Function to get user data from Firestore
+    async function getUserData(uid) {
+        const docRef = doc(db, "users", uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            document.getElementById("fullName").value = data.fullName || '';
+            document.getElementById("email").value = data.email || '';
+            document.getElementById("phone").value = data.phone || '';
+            document.getElementById("address").value = data.address || '';
+        } else {
+            console.log("No such document!");
+        }
+    }
+
+    // Function to update user data in Firestore
+    async function updateUserData(uid, data) {
+        await setDoc(doc(db, "users", uid), data, { merge: true });
+        alert("Personal information updated successfully!");
+    }
+
+    // Load user data on page load
+    onAuthStateChanged(auth, (user) => {
+        if (!user) {
+            window.location = "index.html"; // Redirect to login if not logged in
+        } else {
+            getUserData(user.uid); // Fetch user data
+        }
+    });
+
+    document.getElementById("personalInfoForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const user = auth.currentUser;
+        const userData = {
+            fullName: document.getElementById("fullName").value,
+            email: document.getElementById("email").value,
+            phone: document.getElementById("phone").value,
+            address: document.getElementById("address").value
+        };
+        await updateUserData(user.uid, userData); // Update user data
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+        await signOut(auth);
+        window.location = "index.html"; // Redirect to login page after logout
+    });
+</script>
+
+</body>
+</html>
