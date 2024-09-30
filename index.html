@@ -1,16 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bank Operations Authentication</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
-    <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js"></script>
-    <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js"></script>
+    <!-- Latest Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             background-color: #f8f9fa;
         }
+
+        .navbar-custom {
+            background-color: #343a40;
+        }
+
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: #ffffff;
+        }
+
+        .navbar-toggler {
+            border: none;
+        }
+
+        .navbar-toggler-icon {
+            background-image: none;
+            position: relative;
+            width: 24px;
+            height: 2px;
+            background-color: #fff;
+            transition: all 0.3s;
+        }
+
+        .navbar-toggler.collapsed .navbar-toggler-icon {
+            background-color: transparent;
+        }
+
+        .navbar-toggler.collapsed .navbar-toggler-icon::before,
+        .navbar-toggler.collapsed .navbar-toggler-icon::after {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 2px;
+            background-color: #fff;
+        }
+
+        .navbar-toggler.collapsed .navbar-toggler-icon::before {
+            top: 0;
+        }
+
+        .navbar-toggler.collapsed .navbar-toggler-icon::after {
+            bottom: 0;
+        }
+
+        .navbar-toggler:not(.collapsed) .navbar-toggler-icon {
+            background-color: transparent;
+        }
+
+        .navbar-toggler:not(.collapsed) .navbar-toggler-icon::before {
+            transform: rotate(45deg);
+            top: 0;
+        }
+
+        .navbar-toggler:not(.collapsed) .navbar-toggler-icon::after {
+            transform: rotate(-45deg);
+            bottom: 0;
+        }
+
         .container {
             margin-top: 100px;
             background-color: #ffffff;
@@ -20,15 +78,44 @@
         }
     </style>
 </head>
+
 <body>
+
+    <!-- Responsive Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Bank Ops</a>
+            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Authentication Form -->
     <div class="container">
         <h2 class="text-center" id="formTitle">Login</h2>
         <form id="authForm">
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label for="email">Email:</label>
                 <input type="email" class="form-control" id="email" placeholder="Enter email" required>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label for="password">Password:</label>
                 <input type="password" class="form-control" id="password" placeholder="Enter password" required>
             </div>
@@ -38,7 +125,11 @@
         </form>
     </div>
 
+    <!-- Latest Bootstrap 5 JavaScript and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
     <script type="module">
+        // Firebase initialization and authentication handling
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
 
@@ -54,7 +145,7 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        document.getElementById('authForm').addEventListener('submit', function(event) {
+        document.getElementById('authForm').addEventListener('submit', function (event) {
             event.preventDefault();
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
@@ -65,8 +156,7 @@
             if (submitBtn.textContent === "Login") {
                 signInWithEmailAndPassword(auth, email, password)
                     .then((userCredential) => {
-                        // Redirect to home.html after successful login
-                        window.location.href = 'home.html';
+                        alert("Login successful! Welcome, " + userCredential.user.email);
                     })
                     .catch((error) => {
                         errorMessage.textContent = error.message;
@@ -75,8 +165,7 @@
             } else {
                 createUserWithEmailAndPassword(auth, email, password)
                     .then((userCredential) => {
-                        // Redirect to home.html after successful registration
-                        window.location.href = 'home.html';
+                        alert("Registration successful! Welcome, " + userCredential.user.email);
                     })
                     .catch((error) => {
                         errorMessage.textContent = error.message;
@@ -85,7 +174,7 @@
             }
         });
 
-        document.getElementById('registerLink').addEventListener('click', function() {
+        document.getElementById('registerLink').addEventListener('click', function () {
             const formTitle = document.getElementById('formTitle');
             const submitBtn = document.getElementById('submitBtn');
             const registerLink = document.getElementById('registerLink');
@@ -102,4 +191,5 @@
         });
     </script>
 </body>
+
 </html>
