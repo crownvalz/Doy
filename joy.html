@@ -128,9 +128,8 @@
         // Sign in user with Firebase Authentication
         auth.signInWithEmailAndPassword(email, password)
             .then((userCredential) => {
-                // User login successful
-                alert('Login successful!');
-                // You can redirect the user to the dashboard or home page here
+                // User login successful, redirect to home page
+                window.location.href = 'home.html';  // Replace 'home.html' with your actual home page URL
             })
             .catch((error) => {
                 // Handle login errors
