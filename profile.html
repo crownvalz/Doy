@@ -1,1 +1,160 @@
- 
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>User Profile</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 30px;
+            max-width: 800px;
+        }
+        .profile-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #007bff;
+        }
+        .card {
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+        .card-header {
+            background-color: #007bff;
+            color: white;
+        }
+        .footer-text {
+            text-align: center;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="#">Bank Operations</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="profile.html">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="logoutBtn">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="profile-header">
+        <img src="default-profile.jpg" alt="Profile Image" class="profile-img" id="profileImage">
+        <h2 class="mt-3" id="fullName">John Doe</h2>
+        <p id="email">johndoe@example.com</p>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h5>Personal Information</h5>
+        </div>
+        <div class="card-body">
+            <p><strong>Phone Number:</strong> <span id="phone">+1 234 567 890</span></p>
+            <p><strong>Address:</strong> <span id="address">123 Main St, City, Country</span></p>
+            <p><strong>Date of Birth:</strong> <span id="dob">1990-01-01</span></p>
+            <p><strong>Gender:</strong> <span id="gender">Male</span></p>
+            <p><strong>Nationality:</strong> <span id="nationality">USA</span></p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h5>Hobbies</h5>
+        </div>
+        <div class="card-body">
+            <span id="hobbies">Reading, Traveling</span>
+        </div>
+    </div>
+</div>
+
+<div class="footer-text">
+    <p>&copy; 2024 Bank Operations. All rights reserved.</p>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBe1HYgEzdcZj0ZOgimd1ODz8B-2aztUYs",
+        authDomain: "bank-operations-school.firebaseapp.com",
+        projectId: "bank-operations-school",
+        storageBucket: "bank-operations-school.appspot.com",
+        messagingSenderId: "292213603678",
+        appId: "1:292213603678:web:464bf951de870b94baa3cf"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+    const db = getFirestore();
+
+    // Function to get user data from Firestore
+    async function getUserData(uid) {
+        const docRef = doc(db, "users", uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            document.getElementById("fullName").innerText = data.fullName || 'N/A';
+            document.getElementById("email").innerText = data.email || 'N/A';
+            document.getElementById("phone").innerText = data.phone || 'N/A';
+            document.getElementById("address").innerText = data.address || 'N/A';
+            document.getElementById("dob").innerText = data.dob || 'N/A';
+            document.getElementById("gender").innerText = data.gender || 'N/A';
+            document.getElementById("nationality").innerText = data.nationality || 'N/A';
+            document.getElementById("hobbies").innerText = data.hobbies ? data.hobbies.join(', ') : 'N/A';
+            // Set profile image if available
+            if (data.profileImage) {
+                document.getElementById("profileImage").src = data.profileImage;
+            }
+        } else {
+            console.log("No such document!");
+        }
+    }
+
+    // Load user data on page load
+    onAuthStateChanged(auth, (user) => {
+        if (!user) {
+            window.location = "index.html"; // Redirect to login if not logged in
+        } else {
+            getUserData(user.uid); // Fetch user data
+        }
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+        await signOut(auth);
+        window.location = "index.html"; // Redirect to login page after logout
+    });
+</script>
+
+</body>
+</html>
