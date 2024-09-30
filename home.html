@@ -15,12 +15,11 @@
 
 <body>
 
-    <!-- Check user session -->
     <script>
+        // Check user session
         const user = sessionStorage.getItem('user');
         if (!user) {
-            // If no user session found, redirect to the authentication page
-            window.location.href = 'login.html'; // Change to your login page name
+            window.location.href = 'login.html'; // Redirect to login if no session
         }
     </script>
 
