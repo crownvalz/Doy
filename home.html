@@ -21,12 +21,6 @@
             background-color: #ffffff;
             border-right: 1px solid #ddd;
         }
-        .sidebar .nav-link {
-            color: #343a40;
-        }
-        .sidebar .nav-link:hover {
-            background-color: #f8f9fa;
-        }
         .job-post {
             border: 1px solid #ddd;
             border-radius: 8px;
@@ -64,8 +58,10 @@
 <div class="container-fluid">
     <div class="row">
         <nav class="col-md-3 col-lg-2 sidebar">
-            <div class="sidebar-sticky">
-                <h4 class="text-center mt-3">Menu</h4>
+            <button class="btn btn-link" data-toggle="collapse" data-target="#sidebarMenu" aria-expanded="false" aria-controls="sidebarMenu">
+                Menu
+            </button>
+            <div class="collapse" id="sidebarMenu">
                 <ul class="nav flex-column">
                     <li class="nav-item">
                         <a class="nav-link" href="#">My Applications</a>
