@@ -48,7 +48,7 @@
             <button type="submit" class="btn btn-primary btn-block">Register</button>
             <div id="errorMessage" class="text-danger mt-2" style="display: none;"></div>
         </form>
-        <p class="mt-3 text-center">Already have an account? <a href="#" id="showLogin">Login here</a></p>
+        <p class="mt-3 text-center">Already have an account? <a href="login.html" id="showLogin">Login here</a></p>
     </div>
 
     <script type="module">
@@ -99,8 +99,8 @@
                     })
                     .then(() => {
                         alert("Registration successful!");
-                        // Redirect to home page or show success message
-                        window.location.href = "home.html";
+                        // Redirect to the login page
+                        window.location.href = "login.html"; // Change this to your actual login page URL
                     })
                     .catch((error) => {
                         errorMessage.textContent = error.message;
@@ -112,10 +112,7 @@
 
         // Show login form link
         document.getElementById('showLogin').addEventListener('click', function(event) {
-            event.preventDefault();
-            alert("Redirecting to the login page.");
-            // Add redirection to the login page here if needed
-            // window.location.href = "login.html"; // Uncomment if you have a login page
+            // Already set to redirect to login.html
         });
     </script>
 </body>
