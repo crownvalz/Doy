@@ -12,8 +12,24 @@
         }
         .container {
             margin-top: 50px;
-            max-width: 600px;
         }
+        .job-card {
+            border: 1px solid #dee2e6;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+        .company-logo {
+            max-width: 50px;
+            margin-right: 10px;
+        }
+        
         .form-group label {
             font-weight: bold;
         }
@@ -24,12 +40,19 @@
         .btn-primary:hover {
             background-color: #004b99;
         }
-        .footer-text {
-            text-align: center;
-            margin-top: 20px;
+        .btn-apply {
             background-color: #0069d9;
             color: white;
+            border-radius: 5px;
+        }
+        .btn-apply:hover {
+            background-color: #004b99;
+        }
+        .footer-text {
+            text-align: center;
             padding: 30px 0;
+            background-color: #0069d9;
+            color: white;
         }
         .navbar {
             background-color: #fff;
@@ -51,7 +74,13 @@
         }
         .navbar-toggler {
             border: none;
-        } 
+        }
+        
+        
+        
+        
+        
+        
     </style>
 </head>
 <body>
