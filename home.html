@@ -90,15 +90,18 @@
         @media (max-width: 576px) {
             .card-content {
                 margin-left: 0;
+                padding: 1rem; /* Add some padding to avoid edge touching */
             }
 
             .custom-card {
                 text-align: center;
+                padding: 1.5rem;
             }
 
             .card-image img {
                 margin: 0 auto;
                 display: block;
+                max-width: 80px; /* Slightly smaller for mobile */
             }
         }
     </style>
@@ -140,9 +143,9 @@
 <!-- Main Content -->
 <div class="container">
     <h2 class="text-center mb-4">Job Listings</h2>
-    <div class="row p-3 justify-content-center">
+    <div class="row justify-content-center">
         <!-- Job Listing 1 -->
-        <div class="col-lg-6 col-md-8 col-sm-10 mb-4">
+        <div class="col-lg-6 col-md-8 col-sm-10 col-12 mb-4">
             <div class="custom-card position-relative">
                 <div class="card-image position-absolute top-50 start-0 translate-middle">
                     <img src="https://via.placeholder.com/150" alt="Card Image" class="img-fluid">
