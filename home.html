@@ -6,16 +6,16 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <title>Job Portal</title>
     
-
-
-<style>
-body {
+    <style>
+        body {
             background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
         }
+
         .container {
             margin-top: 30px;
         }
-        
+
         .footer-text {
             text-align: center;
             margin-top: 30px;
@@ -24,74 +24,96 @@ body {
             color: white;
         }
 
+        /* Navbar styling */
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #007bff;
+        }
 
-    /* Card styling */
-    .custom-card {
-        background-color: #fff;
-        border-radius: 15px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        padding: 2rem;
-        overflow: visible; /* Ensure the overflow is visible for the image */
-        position: relative;
-    }
+        .nav-link {
+            color: #007bff;
+            font-weight: 500;
+        }
 
-    /* Image styling */
-    .card-image img {
-        max-width: 100px;
-        height: auto;
-        border-radius: 10%; /* Boxy shape with 10% border-radius */
-        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
-    }
+        .nav-link.active, .nav-link:hover {
+            color: #0056b3;
+        }
 
-    /* Move content over to make room for image */
-    .card-content {
-        margin-left: 120px;
-    }
+        /* Job card styling */
+        .custom-card {
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            position: relative;
+            transition: transform 0.3s ease-in-out;
+        }
 
-    /* Button Styling */
-    .btn-read-more {
-        background-color: #ff5722;
-        color: #fff;
-        border-radius: 20px;
-        padding: 0.5rem 1rem;
-    }
-
-    .btn-read-more:hover {
-        background-color: #e64a19;
-    }
-
-    /* Media queries to ensure responsiveness */
-    @media (max-width: 768px) {
-        .card-content {
-            margin-left: 80px;
+        .custom-card:hover {
+            transform: translateY(-10px);
         }
 
         .card-image img {
-            max-width: 80px;
+            max-width: 100px;
+            height: auto;
+            border-radius: 10%;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
         }
-    }
 
-    @media (max-width: 576px) {
         .card-content {
-            margin-left: 60px;
+            margin-left: 120px;
         }
 
-        .card-image img {
-            max-width: 80px;
+        .btn-read-more {
+            background-color: #ff5722;
+            color: #fff;
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
         }
-    }
-</style>
+
+        .btn-read-more:hover {
+            background-color: #e64a19;
+        }
+
+        /* Adjustments for smaller screens */
+        @media (max-width: 768px) {
+            .card-content {
+                margin-left: 80px;
+            }
+
+            .card-image img {
+                max-width: 80px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .card-content {
+                margin-left: 0;
+            }
+
+            .custom-card {
+                text-align: center;
+            }
+
+            .card-image img {
+                margin: 0 auto;
+                display: block;
+            }
+        }
+    </style>
 </head>
 <body>
 
+<!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
         <a class="navbar-brand" href="index.html">Bank Operations</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="home.html">Dashboard</a>
                 </li>
@@ -115,56 +137,52 @@ body {
     </div>
 </nav>
 
+<!-- Main Content -->
 <div class="container">
     <h2 class="text-center mb-4">Job Listings</h2>
-    <div class="row">
-        <!-- Job Listing 1 -->
-        <div class="container my-5">
     <div class="row justify-content-center">
-        <div class="col-lg-6 col-md-8 col-sm-10">
-            <div class="custom-card p-4 position-relative">
-                <!-- Image Section -->
+        <!-- Job Listing 1 -->
+        <div class="col-lg-6 col-md-8 col-sm-10 mb-4">
+            <div class="custom-card position-relative">
                 <div class="card-image position-absolute top-50 start-0 translate-middle">
-                    <img src="https://via.placeholder.com/150" alt="Card Image" class="img-fluid shadow-lg">
+                    <img src="https://via.placeholder.com/150" alt="Card Image" class="img-fluid">
                 </div>
-                <!-- Content Section -->
                 <div class="card-content ms-5">
-                    <p class="card-date mb-2">26 December 2019</p>
-                    <h4 class="card-title">Lorem Ipsum Dolor</h4>
-                    <p class="card-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae voluptate repellendus magni illo ea animi?</p>
+                    <p class="text-muted mb-2">26 December 2019</p>
+                    <h4>Lorem Ipsum Dolor</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae voluptate repellendus magni illo ea animi?</p>
                     <button class="btn btn-read-more">Read More</button>
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
         <!-- Job Listing 2 -->
-        <div class="col-md-4">
-            <div class="job-card">
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="custom-card p-3">
                 <div class="d-flex align-items-center mb-3">
-                    <img src="logo-data-solutions.png" alt="Data Solutions" class="company-logo">
-                    <h5 class="mb-0">Data Analyst</h5>
+                    <img src="logo-data-solutions.png" alt="Data Solutions" class="company-logo me-3">
+                    <h5>Data Analyst</h5>
                 </div>
                 <p class="text-muted">Company: Data Solutions</p>
                 <p><strong>Location:</strong> New York, NY</p>
                 <p><strong>Salary:</strong> $80,000 - $100,000</p>
                 <p>We are looking for a data analyst to manage and interpret large sets of data.</p>
-                <button class="btn btn-apply">Apply Now</button>
+                <button class="btn btn-primary">Apply Now</button>
             </div>
         </div>
+
         <!-- Job Listing 3 -->
-        <div class="col-md-4">
-            <div class="job-card">
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="custom-card p-3">
                 <div class="d-flex align-items-center mb-3">
-                    <img src="logo-management-pros.png" alt="Management Pros" class="company-logo">
-                    <h5 class="mb-0">Project Manager</h5>
+                    <img src="logo-management-pros.png" alt="Management Pros" class="company-logo me-3">
+                    <h5>Project Manager</h5>
                 </div>
                 <p class="text-muted">Company: Management Pros</p>
                 <p><strong>Location:</strong> Remote</p>
                 <p><strong>Salary:</strong> $90,000 - $110,000</p>
                 <p>Oversee critical projects with a dynamic, remote-first team.</p>
-                <button class="btn btn-apply">Apply Now</button>
+                <button class="btn btn-primary">Apply Now</button>
             </div>
         </div>
     </div>
