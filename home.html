@@ -7,38 +7,71 @@
     <title>Job Portal</title>
     
     <style>
+        
+
+        
         body {
-            background-color: #f8f9fa;
-            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fc;
+            font-family: 'Roboto', sans-serif;
         }
-
         .container {
-            margin-top: 30px;
+            margin-top: 50px;
         }
-
+        
+        .company-logo {
+            max-width: 50px;
+            margin-right: 10px;
+        }
+        
+        .form-group label {
+            font-weight: bold;
+        }
+        .btn-primary {
+            background-color: #0069d9;
+            border-radius: 5px;
+        }
+        .btn-primary:hover {
+            background-color: #004b99;
+        }
+        .btn-apply {
+            background-color: #0069d9;
+            color: white;
+            border-radius: 5px;
+        }
+        .btn-apply:hover {
+            background-color: #004b99;
+        }
         .footer-text {
             text-align: center;
-            margin-top: 30px;
-            padding: 20px 0;
-            background-color: #007bff;
+            padding: 30px 0;
+            background-color: #0069d9;
             color: white;
         }
-
-        /* Navbar styling */
+        .navbar {
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .navbar-nav .nav-link {
+            font-size: 1rem;
+            margin-right: 20px;
+            color: #333;
+        }
+        .navbar-nav .nav-link.active {
+            color: #0069d9;
+            font-weight: bold;
+        }
         .navbar-brand {
             font-size: 1.5rem;
+            color: #0069d9;
             font-weight: bold;
-            color: #007bff;
         }
-
-        .nav-link {
-            color: #007bff;
-            font-weight: 500;
+        .navbar-toggler {
+            border: none;
         }
-
-        .nav-link.active, .nav-link:hover {
-            color: #0056b3;
-        }
+        
+        
+        
+        
 
         /* Job card styling */
         .custom-card {
