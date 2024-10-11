@@ -7,137 +7,117 @@
     <title>Job Portal</title>
     
     <style>
-        
 
-        
-        body {
-            background-color: #f4f7fc;
-            font-family: 'Roboto', sans-serif;
-        }
-        .container {
-            margin-top: 50px;
-        }
-        
-        .company-logo {
-            max-width: 50px;
-            margin-right: 10px;
-        }
-        
-        .form-group label {
-            font-weight: bold;
-        }
-        .btn-primary {
-            background-color: #0069d9;
-            border-radius: 5px;
-        }
-        .btn-primary:hover {
-            background-color: #004b99;
-        }
-        .btn-apply {
-            background-color: #0069d9;
-            color: white;
-            border-radius: 5px;
-        }
-        .btn-apply:hover {
-            background-color: #004b99;
-        }
-        .footer-text {
-            text-align: center;
-            padding: 30px 0;
-            background-color: #0069d9;
-            color: white;
-        }
-        .navbar {
-            background-color: #fff;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .navbar-nav .nav-link {
-            font-size: 1rem;
-            margin-right: 20px;
-            color: #333;
-        }
-        .navbar-nav .nav-link.active {
-            color: #0069d9;
-            font-weight: bold;
-        }
-        .navbar-brand {
-            font-size: 1.5rem;
-            color: #0069d9;
-            font-weight: bold;
-        }
-        .navbar-toggler {
-            border: none;
-        }
-        
-        
-        
-        
+    body {
+        background-color: #f4f7fc;
+        font-family: 'Roboto', sans-serif;
+    }
+    
+    .container {
+        margin-top: 50px;
+    }
 
-        /* Job card styling */
-        .custom-card {
-            background-color: #fff;
-            border-radius: 15px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-            position: relative;
-            transition: transform 0.3s ease-in-out;
-        }
+    .company-logo {
+        max-width: 50px;
+        margin-right: 10px;
+    }
 
-        .custom-card:hover {
-            transform: translateY(-10px);
-        }
+    .form-group label {
+        font-weight: bold;
+    }
 
-        .card-image img {
-            max-width: 100px;
-            height: auto;
-            border-radius: 10%;
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
-        }
+    .btn-primary {
+        background-color: #0069d9;
+        border-radius: 5px;
+    }
 
-        .card-content {
-            margin-left: 120px;
-        }
+    .btn-primary:hover {
+        background-color: #004b99;
+    }
 
-        .btn-read-more {
-            background-color: #ff5722;
-            color: #fff;
-            border-radius: 20px;
-            padding: 0.5rem 1rem;
-        }
+    .btn-apply {
+        background-color: #0069d9;
+        color: white;
+        border-radius: 5px;
+    }
 
-        .btn-read-more:hover {
-            background-color: #e64a19;
-        }
+    .btn-apply:hover {
+        background-color: #004b99;
+    }
 
-        /* Adjustments for smaller screens */
-        @media (max-width: 768px) {
-            .card-content {
-                margin-left: 80px;
-            }
+    .footer-text {
+        text-align: center;
+        padding: 30px 0;
+        background-color: #0069d9;
+        color: white;
+    }
 
-            .card-image img {
-                max-width: 80px;
-            }
-        }
+    .navbar {
+        background-color: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
 
-        @media (max-width: 576px) {
-            .card-content {
-                margin-left: 0;
-                padding: 1rem; /* Add some padding to avoid edge touching */
-            }
+    .navbar-nav .nav-link {
+        font-size: 1rem;
+        margin-right: 20px;
+        color: #333;
+    }
 
-            .custom-card {
-                text-align: center;
-                padding: 1.5rem;
-            }
+    .navbar-nav .nav-link.active {
+        color: #0069d9;
+        font-weight: bold;
+    }
 
-            .card-image img {
-                margin: 0 auto;
-                display: block;
-                max-width: 80px; /* Slightly smaller for mobile */
-            }
-        }
-    </style>
+    .navbar-brand {
+        font-size: 1.5rem;
+        color: #0069d9;
+        font-weight: bold;
+    }
+
+    .navbar-toggler {
+        border: none;
+    }
+
+    /* Additional CSS for the Job Listings */
+    .card {
+        border-radius: 15px;
+        background: linear-gradient(135deg, rgba(255, 123, 0, 0.8), rgba(255, 95, 109, 0.8));
+        color: white;
+    }
+
+    .card-body {
+        position: relative;
+        padding: 20px;
+    }
+
+    .card img {
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .card-text {
+        font-size: 0.9rem;
+    }
+
+    .btn-primary-custom {
+        background-color: #ff6f61;
+        border-color: #ff6f61;
+        border-radius: 20px;
+        padding: 8px 20px;
+    }
+
+    .btn-primary-custom:hover {
+        background-color: #ff5238;
+        border-color: #ff5238;
+    }
+
+</style>
 </head>
 <body>
 
@@ -179,50 +159,50 @@
     <div class="row justify-content-center">
         
         <!-- Job Listing 1 -->
-        <div class="col-lg-6 col-md-8 col-sm-10 col-12 mb-4" style="margin-left: 5rem;" >
-            <div class="custom-card card position-relative p-3">
-                <div class="card-image position-absolute top-50 start-0 translate-middle">
-                    <img src="https://via.placeholder.com/150" alt="Card Image" class="img-fluid">
-                </div>
-                <div class="card-content" style="padding-left: 6rem;">
-                    <p class="text-muted mb-2">26 December 2019</p>
-                    <h4>Lorem Ipsum Dolor</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit?</p>
-                    <button class="btn btn-primary">Read More</button>
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm border-0">
+                <img src="job-image-1.jpg" class="card-img-top img-fluid" alt="Job 1">
+                <div class="card-body">
+                    <h5 class="card-title">Lorem Ipsum Dolor</h5>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus magni illo ea animi?</p>
+                    <p class="text-muted">26 December 2019</p>
+                    <a href="#" class="btn btn-primary">Read More</a>
                 </div>
             </div>
         </div>
-
+        
         <!-- Job Listing 2 -->
-        <div class="col-lg-6 col-md-8 col-sm-10 col-12 mb-4">
-            <div class="custom-card card position-relative p-3">
-                <div class="card-image position-absolute top-50 start-0 translate-middle">
-                    <img src="https://via.placeholder.com/150" alt="Card Image" class="img-fluid">
-                </div>
-                <div class="card-content" style="padding-left: 6rem;">
-                    <p class="text-muted mb-2">26 December 2019</p>
-                    <h4>Lorem Ipsum Dolor</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit?</p>
-                    <button class="btn btn-primary">Read More</button>
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm border-0">
+                <img src="job-image-2.jpg" class="card-img-top img-fluid" alt="Job 2">
+                <div class="card-body">
+                    <h5 class="card-title">Lorem Ipsum Dolor</h5>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus magni illo ea animi?</p>
+                    <p class="text-muted">26 December 2019</p>
+                    <a href="#" class="btn btn-primary">Read More</a>
                 </div>
             </div>
         </div>
 
         <!-- Job Listing 3 -->
-        <div class="col-lg-6 col-md-8 col-sm-10 col-12 mb-4">
-            <div class="custom-card card position-relative p-3">
-                <div class="card-image position-absolute top-50 start-0 translate-middle">
-                    <img src="https://via.placeholder.com/150" alt="Card Image" class="img-fluid">
-                </div>
-                <div class="card-content" style="padding-left: 6rem;">
-                    <p class="text-muted mb-2">26 December 2019</p>
-                    <h4>Lorem Ipsum Dolor</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit?</p>
-                    <button class="btn btn-primary">Read More</button>
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm border-0">
+                <img src="job-image-3.jpg" class="card-img-top img-fluid" alt="Job 3">
+                <div class="card-body">
+                    <h5 class="card-title">Lorem Ipsum Dolor</h5>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus magni illo ea animi?</p>
+                    <p class="text-muted">26 December 2019</p>
+                    <a href="#" class="btn btn-primary">Read More</a>
                 </div>
             </div>
         </div>
+
     </div>
+</div>
+
+<!-- Footer -->
+<div class="footer-text text-center mt-4">
+    <p>&copy; 2024 JobFinder Pro. All rights reserved.</p>
 </div>
 
 <!-- Footer -->
