@@ -8,6 +8,13 @@
     <title>Job Portal</title>
     <style>
         /* Minimal custom CSS */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa; /* Light background for better readability */
+        }
+        .navbar {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
         .search-bar {
             display: none; /* Hidden by default */
             opacity: 0;
@@ -60,6 +67,27 @@
         .dropdown-toggle:focus {
             outline: none; /* Remove the default blue outline */
             box-shadow: none; /* Remove shadow */
+        }
+
+        .footer-text {
+            background-color: #343a40; /* Dark background for footer */
+            color: white;
+            padding: 20px 0;
+            position: relative;
+        }
+
+        .job-listing {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 576px) {
+            .navbar-nav {
+                flex-direction: column; /* Stack nav links on small screens */
+            }
         }
     </style>
 </head>
@@ -128,6 +156,35 @@
     <h2 class="text-center mb-4">Job Listings</h2>
     <div class="row justify-content-center">
         <!-- Job Listing 1 -->
+        <div class="col-md-4">
+            <div class="job-listing">
+                <h5>Software Engineer</h5>
+                <p>Company: Tech Innovations</p>
+                <p>Location: Remote</p>
+                <p>Requirements: Experience in JavaScript and React.</p>
+                <a href="#" class="btn btn-primary">Apply Now</a>
+            </div>
+        </div>
+        <!-- Job Listing 2 -->
+        <div class="col-md-4">
+            <div class="job-listing">
+                <h5>Data Analyst</h5>
+                <p>Company: Data Insights</p>
+                <p>Location: New York, NY</p>
+                <p>Requirements: Proficient in Excel and SQL.</p>
+                <a href="#" class="btn btn-primary">Apply Now</a>
+            </div>
+        </div>
+        <!-- Job Listing 3 -->
+        <div class="col-md-4">
+            <div class="job-listing">
+                <h5>Product Manager</h5>
+                <p>Company: Business Solutions</p>
+                <p>Location: San Francisco, CA</p>
+                <p>Requirements: Strong leadership and communication skills.</p>
+                <a href="#" class="btn btn-primary">Apply Now</a>
+            </div>
+        </div>
     </div>
 </div>
 
