@@ -220,9 +220,23 @@
     import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
     const auth = getAuth();
 
+    let timer, resetTimer = () => {
+        clearTimeout(timer);
+        timer = setTimeout(async () => {
+            await signOut(auth);
+            window.location = "index.html";
+        }, 30000); // 30 seconds inactivity timeout
+    };
+
+    ['click', 'mousemove', 'keypress', 'scroll', 'touchstart'].forEach(e => 
+        window.addEventListener(e, resetTimer)
+    );
+    
+    resetTimer(); // Start the timer on page load
+
     document.getElementById("logoutBtn").addEventListener("click", async () => {
         await signOut(auth);
-        window.location = "index.html"; // Redirect to login page after logout
+        window.location = "index.html";
     });
 </script>
 
