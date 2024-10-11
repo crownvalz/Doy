@@ -47,8 +47,16 @@
             border: none;
         }
 
+        /* Centering nav links */
         .navbar-nav {
-            justify-content: center; /* Centers the links */
+            justify-content: center;
+        }
+
+        /* Search bar styling */
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
         }
 
         .btn-search {
@@ -59,6 +67,11 @@
 
         .btn-search:hover {
             background-color: #004b99;
+        }
+
+        /* Hide search bar on large screens */
+        .search-bar.d-none.d-lg-flex {
+            display: none !important;
         }
     </style>
 </head>
@@ -94,13 +107,23 @@
           <a class="nav-link disabled">Disabled</a>
         </li>
       </ul>
-      <form class="d-flex">
+
+      <!-- Search bar (visible on large screens only) -->
+      <form class="d-none d-lg-flex">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-search" type="submit">Search</button>
       </form>
     </div>
   </div>
 </nav>
+
+<!-- Search bar (visible on mobile only, placed below navbar) -->
+<div class="search-bar d-flex d-lg-none">
+  <form class="d-flex w-100">
+    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+    <button class="btn btn-search" type="submit">Search</button>
+  </form>
+</div>
 
 <!-- Main Content -->
 <div class="container">
