@@ -9,12 +9,16 @@
     <style>
         /* Minimal custom CSS */
         .search-bar {
-            display: none; /* Hide by default */
-            transition: width 0.3s ease;
+            display: none; /* Hidden by default */
+            opacity: 0;
+            height: 0;
+            overflow: hidden;
+            transition: all 0.4s ease; /* Smooth transition for both height and opacity */
         }
         .search-bar.active {
-            display: block; /* Show search bar when active */
-            width: 100%;
+            display: block;
+            opacity: 1;
+            height: 50px; /* Adjust height as needed */
         }
 
         .navbar-nav {
@@ -35,6 +39,19 @@
 
         .search-icon i:hover {
             color: #0069d9;
+        }
+
+        .dropdown-menu {
+            display: none;
+            opacity: 0;
+            transform: translateY(-10px); /* Starts slightly above the dropdown */
+            transition: all 0.3s ease; /* Smooth transition for appearance */
+        }
+
+        .dropdown-menu.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0); /* Animates down to original position */
         }
     </style>
 </head>
@@ -114,15 +131,39 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.3/font/bootstrap-icons.min.css"></script>
 
 <script>
-    // Toggle search bar visibility
+    // Toggle search bar visibility with smooth transitions
     const searchIcon = document.getElementById("searchIcon");
     const searchBarForm = document.getElementById("searchBarForm");
 
-    searchIcon.addEventListener("click", function() {
-        searchBarForm.classList.toggle("active");
+    searchIcon.addEventListener("click", function () {
+        if (searchBarForm.classList.contains("active")) {
+            searchBarForm.style.height = "0"; // Collapse
+            searchBarForm.style.opacity = "0";
+            setTimeout(() => {
+                searchBarForm.classList.remove("active");
+            }, 400); // Wait for transition to end
+        } else {
+            searchBarForm.classList.add("active");
+            searchBarForm.style.height = "50px"; // Expand (adjust the height based on content)
+            searchBarForm.style.opacity = "1";
+        }
+    });
+
+    // Add smooth dropdown effect
+    const dropdowns = document.querySelectorAll('.dropdown');
+
+    dropdowns.forEach(dropdown => {
+        dropdown.addEventListener('show.bs.dropdown', () => {
+            const menu = dropdown.querySelector('.dropdown-menu');
+            menu.style.opacity = 0;
+            menu.style.transform = 'translateY(-10px)';
+            setTimeout(() => {
+                menu.style.opacity = 1;
+                menu.style.transform = 'translateY(0)';
+            }, 10); // Delay to ensure smooth transition
+        });
     });
 </script>
 
