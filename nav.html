@@ -9,12 +9,12 @@
     <style>
         /* Minimal custom CSS */
         .search-bar {
-            display: none; /* Hide by default */
-            transition: width 0.3s ease;
+            max-width: 0; /* Hidden by default */
+            overflow: hidden;
+            transition: max-width 0.5s ease; /* Smooth transition for width */
         }
         .search-bar.active {
-            display: block; /* Show search bar when active */
-            width: 100%;
+            max-width: 300px; /* Adjust the maximum width of the search bar */
         }
 
         .navbar-nav {
@@ -29,13 +29,13 @@
         }
 
         .search-icon i {
-    font-size: 1.2rem; /* Reduce the size */
-    color: #333;
-}
+            font-size: 1.2rem; /* Smaller icon size */
+            color: #333;
+        }
 
-.search-icon i:hover {
-    color: #0069d9;
-}
+        .search-icon i:hover {
+            color: #0069d9;
+        }
     </style>
 </head>
 <body>
@@ -114,10 +114,9 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.3/font/bootstrap-icons.min.css"></script>
 
 <script>
-    // Toggle search bar visibility
+    // Toggle search bar visibility with smooth animation
     const searchIcon = document.getElementById("searchIcon");
     const searchBarForm = document.getElementById("searchBarForm");
 
