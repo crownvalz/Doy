@@ -25,34 +25,22 @@
             color: #ffc107 !important; /* Highlight on hover */
         }
 
-        /* Search bar animations */
-        .search-icon i {
-            font-size: 1.1rem;
-            color: #333;
+        /* Navbar toggler color */
+        .navbar-toggler {
+            border-color: #fff;
         }
 
-        .search-icon i:hover {
-            color: #0069d9;
-        }
-
-        .dropdown-menu {
-            display: none;
+        /* Search bar */
+        #searchBarForm {
+            height: 0;
+            overflow: hidden;
             opacity: 0;
-            transform: translateY(-10px); /* Starts slightly above the dropdown */
-            transition: all 0.3s ease; /* Smooth transition for appearance */
+            transition: height 0.3s ease, opacity 0.3s ease;
         }
 
-        .dropdown-menu.show {
-            display: block;
+        #searchBarForm.active {
+            height: 50px;
             opacity: 1;
-            transform: translateY(0); /* Animates down to original position */
-        }
-
-        /* Remove blue outline when focused */
-        .form-control:focus,
-        .dropdown-toggle:focus {
-            outline: none; /* Remove the default blue outline */
-            box-shadow: none; /* Remove shadow */
         }
 
         /* Job listing styles */
@@ -95,7 +83,7 @@
 <body>
 
 <!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Job Portal</a>
         
@@ -103,7 +91,7 @@
         <div class="d-flex ms-auto align-items-center">
             <!-- Search icon (shown on mobile) -->
             <button class="search-icon d-lg-none me-2" id="searchIcon" aria-label="Search">
-                <i class="bi bi-search"></i>
+                <i class="bi bi-search" style="color: #fff;"></i>
             </button>
             
             <!-- Navbar Toggler for Mobile -->
@@ -179,7 +167,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
+    
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
