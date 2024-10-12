@@ -13,10 +13,20 @@
     }
 
     /* Navbar styling */
-    .navbar {
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Slightly stronger shadow for depth */
-        background-image: linear-gradient(to right, #0069d9, #004aad); /* Gradient for a dynamic effect */
-    }
+    /* Full-height navbar starting from the top, including status bar */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1030; /* Ensure it stays on top */
+    background-image: linear-gradient(to right, #0069d9, #004aad); /* Gradient for a dynamic effect */
+    padding-top: env(safe-area-inset-top); /* For devices with notch (like iPhones) */
+    padding-bottom: 10px; /* Adjust bottom padding for content spacing */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+
 
     .navbar-brand, .nav-link {
         font-weight: bold;
@@ -83,11 +93,12 @@
     }
 
     /* Responsive navbar adjustments */
-    @media (max-width: 576px) {
-        .navbar-nav {
-            flex-direction: column;
-        }
+    /* Adjust navbar height for devices without safe area inset */
+@media (max-width: 576px) {
+    .navbar {
+        padding-top: 20px; /* Fallback padding for other devices without notch */
     }
+}
 </style>
 </head>
 <body>
