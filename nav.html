@@ -26,18 +26,33 @@
         }
 
         /* Search bar animations */
-        .search-bar {
+        .search-icon i {
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        .search-icon i:hover {
+            color: #0069d9;
+        }
+
+        .dropdown-menu {
             display: none;
             opacity: 0;
-            height: 0;
-            overflow: hidden;
-            transition: all 0.4s ease;
+            transform: translateY(-10px); /* Starts slightly above the dropdown */
+            transition: all 0.3s ease; /* Smooth transition for appearance */
         }
-        .search-bar.active {
+
+        .dropdown-menu.show {
             display: block;
             opacity: 1;
-            height: 50px;
-            background-color: #0069d9; /* Consistent theme */
+            transform: translateY(0); /* Animates down to original position */
+        }
+
+        /* Remove blue outline when focused */
+        .form-control:focus,
+        .dropdown-toggle:focus {
+            outline: none; /* Remove the default blue outline */
+            box-shadow: none; /* Remove shadow */
         }
 
         /* Job listing styles */
@@ -80,40 +95,56 @@
 <body>
 
 <!-- Navigation -->
-<nav class="navbar navbar-expand-lg">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Job Portal</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        
+        <!-- Right aligned icons: Search and Toggle button -->
+        <div class="d-flex ms-auto align-items-center">
+            <!-- Search icon (shown on mobile) -->
+            <button class="search-icon d-lg-none me-2" id="searchIcon" aria-label="Search">
+                <i class="bi bi-search"></i>
+            </button>
+            
+            <!-- Navbar Toggler for Mobile -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+
+        <!-- Collapsible navbar content -->
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item">
-                    <a class="nav-link active" href="home.html">Home</a>
+                    <a class="nav-link active" aria-current="page" href="home.html">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Jobs</a>
+                    <a class="nav-link" href="#">Link</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Profile
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="profile.html">Profile</a></li>
-                        <li><a class="dropdown-item" href="edit.html">Edit Profile</a></li>
+                        <li><a class="dropdown-item" href="info.html">Edit Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="applications.html">My Applications</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="logoutBtn" href="#">Logout</a>
                 </li>
             </ul>
-            <!-- Search icon in the navbar -->
-            <button class="btn btn-outline-light d-lg-none" id="searchIcon">
-                <i class="bi bi-search"></i>
-            </button>
+
+            <!-- Full search bar (hidden on mobile, shown in large screens) -->
+            <form class="d-none d-lg-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            </form>
         </div>
     </div>
 </nav>
+
 
 <!-- Full search bar for mobile (hidden initially) -->
 <div class="container mt-3 d-lg-none" id="searchBarContainer">
