@@ -79,7 +79,7 @@
 <script type="module">
   // Firebase imports
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-  import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, deleteDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
   import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
 
   $(document).ready(function() {
@@ -136,9 +136,19 @@
 
       if (date && amount) {
         if (selectedDocId) {
+          // Get current investment's total to deduct it from grand total
+          const investmentDoc = doc(db, "investments", selectedDocId);
+          const investmentData = await getDoc(investmentDoc);
+          const currentInvestmentAmount = investmentData.data().amount;
+
           // Update existing investment
-          await updateDoc(doc(db, "investments", selectedDocId), { date, amount, total: grandTotal });
-          window.location.reload(); // Refresh the page to update the table
+          await updateDoc(investmentDoc, { date, amount });
+
+          // Update grand total: deduct the old amount and add the new amount
+          grandTotal = grandTotal - currentInvestmentAmount + amount;
+
+          // Update the total in Firestore as well
+          await updateDoc(investmentDoc, { total: grandTotal });
         } else {
           // Add new investment to Firestore
           grandTotal += amount;
@@ -148,7 +158,12 @@
             console.error("Error adding investment: ", error);
           }
         }
-        $('#investmentModal').modal('hide');
+        
+        // Refresh the table to reflect the new grand total
+        investmentTable.clear().draw(); // Clear the current table
+        loadInvestments(); // Reload investments to reflect the new total
+        
+        $('#investmentModal').modal('hide'); // Close the modal
       }
     });
 
