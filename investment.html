@@ -12,17 +12,11 @@
 <div class="container mt-5">
   <h2 class="text-center">UTT AMIS Liquid Product - Investment Tracker</h2>
   
-  <!-- Input Form -->
-  <div class="row mb-4">
-    <div class="col-md-4">
-      <input type="date" id="dateInput" class="form-control" placeholder="Date">
-    </div>
-    <div class="col-md-4">
-      <input type="number" id="amountInput" class="form-control" placeholder="Amount">
-    </div>
-    <div class="col-md-4">
-      <button id="addInvestmentBtn" class="btn btn-primary w-100">Add Investment</button>
-    </div>
+  <!-- Add Investment Button -->
+  <div class="d-flex justify-content-end mb-3">
+    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#investmentModal">
+      <i class="fas fa-plus"></i> Add Investment
+    </button>
   </div>
 
   <!-- Table to Display Investment Data -->
@@ -46,14 +40,58 @@
   </table>
 </div>
 
+<!-- Investment Modal -->
+<div class="modal fade" id="investmentModal" tabindex="-1" aria-labelledby="investmentModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="investmentModalLabel">Add Investment</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="investmentForm">
+          <div class="mb-3">
+            <label for="dateInput" class="form-label">Date</label>
+            <input type="date" id="dateInput" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="amountInput" class="form-label">Amount</label>
+            <input type="number" id="amountInput" class="form-control" required>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" id="addInvestmentBtn" class="btn btn-primary">Add Investment</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
 <script>
   $(document).ready(function() {
     let investmentTable = $('#investmentTable').DataTable();
     let grandTotal = 0;
+
+    // Initialize Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyBe1HYgEzdcZj0ZOgimd1ODz8B-2aztUYs",
+      authDomain: "bank-operations-school.firebaseapp.com",
+      projectId: "bank-operations-school",
+      storageBucket: "bank-operations-school.appspot.com",
+      messagingSenderId: "292213603678",
+      appId: "1:292213603678:web:464bf951de870b94baa3cf"
+    };
+
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore(app);
 
     // Add investment to the table and Firebase
     $('#addInvestmentBtn').on('click', function() {
@@ -71,18 +109,20 @@
         $('#grandTotal').text(grandTotal.toFixed(2));
 
         // Add to Firebase
-        addInvestmentToFirebase(date, amount, grandTotal);
+        db.collection("investments").add({
+          date: date,
+          amount: amount,
+          total: grandTotal
+        })
+        .then(() => console.log("Investment added successfully"))
+        .catch(error => console.error("Error adding investment: ", error));
 
-        // Clear inputs
+        // Clear inputs and close modal
         $('#dateInput').val('');
         $('#amountInput').val('');
+        $('#investmentModal').modal('hide');
       }
     });
-
-    function addInvestmentToFirebase(date, amount, total) {
-      // Firebase code will go here
-      // Use your Firebase API credentials to connect and add data
-    }
   });
 </script>
 
