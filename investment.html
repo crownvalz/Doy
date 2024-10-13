@@ -107,6 +107,8 @@
     const loadInvestments = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "investments"));
+        grandTotal = 0;
+        investmentTable.clear();
         querySnapshot.forEach((doc) => {
           const data = doc.data();
           grandTotal += data.amount;
@@ -143,7 +145,6 @@
             amount: amount,
             total: grandTotal
           });
-          location.reload(); // Reload the page to reflect changes
         } else {
           // Add new investment
           grandTotal += amount;
@@ -152,13 +153,12 @@
             amount: amount,
             total: grandTotal
           });
-          location.reload(); // Reload the page to reflect changes
         }
-
         // Clear inputs and close modal
         $('#dateInput').val('');
         $('#amountInput').val('');
         $('#investmentModal').modal('hide');
+        loadInvestments(); // Reload investments
       }
     });
 
@@ -184,7 +184,7 @@
     $(document).on('click', '.delete-btn', async function() {
       let docId = $(this).data('id');
       await deleteDoc(doc(db, "investments", docId));
-      location.reload(); // Reload the page to reflect changes
+      loadInvestments(); // Reload investments after deletion
     });
 
     // Auto logout after 30 seconds of inactivity
