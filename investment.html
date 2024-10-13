@@ -106,6 +106,9 @@
     const loadInvestments = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "investments"));
+        grandTotal = 0; // Reset grand total on load
+        investmentTable.clear(); // Clear existing rows
+
         querySnapshot.forEach((doc) => {
           const data = doc.data();
           grandTotal += data.amount;
@@ -114,11 +117,11 @@
           investmentTable.row.add([
             data.date,
             data.amount.toFixed(2),
-            data.total.toFixed(2),
             `<button class="btn btn-warning edit-btn" data-id="${doc.id}">Edit</button>
              <button class="btn btn-danger delete-btn" data-id="${doc.id}">Delete</button>`
           ]).draw();
         });
+        
         // Update grand total display
         $('#grandTotal').text(grandTotal.toFixed(2));
       } catch (error) {
@@ -136,7 +139,7 @@
 
       if (date && amount) {
         if (selectedDocId) {
-          // Get current investment's total to deduct it from grand total
+          // Get current investment's amount to deduct it from grand total
           const investmentDoc = doc(db, "investments", selectedDocId);
           const investmentData = await getDoc(investmentDoc);
           const currentInvestmentAmount = investmentData.data().amount;
@@ -146,19 +149,16 @@
 
           // Update grand total: deduct the old amount and add the new amount
           grandTotal = grandTotal - currentInvestmentAmount + amount;
-
-          // Update the total in Firestore as well
-          await updateDoc(investmentDoc, { total: grandTotal });
         } else {
           // Add new investment to Firestore
           grandTotal += amount;
           try {
-            await addDoc(collection(db, "investments"), { date, amount, total: grandTotal });
+            await addDoc(collection(db, "investments"), { date, amount });
           } catch (error) {
             console.error("Error adding investment: ", error);
           }
         }
-        
+
         // Refresh the table to reflect the new grand total
         investmentTable.clear().draw(); // Clear the current table
         loadInvestments(); // Reload investments to reflect the new total
@@ -179,13 +179,23 @@
     // Delete Investment
     $('#investmentTable tbody').on('click', '.delete-btn', async function() {
       let docId = $(this).data('id');
+      const investmentDoc = doc(db, "investments", docId);
+      const investmentData = await getDoc(investmentDoc);
+      const currentInvestmentAmount = investmentData.data().amount;
+
       try {
-        await deleteDoc(doc(db, "investments", docId));
-        window.location.reload(); // Refresh the page to update the table
+        await deleteDoc(investmentDoc);
+        grandTotal -= currentInvestmentAmount; // Update grand total
+        loadInvestments(); // Refresh investments
       } catch (error) {
         console.error("Error deleting investment: ", error);
       }
     });
+
+    // Update grand total display after deletion
+    const updateGrandTotalDisplay = () => {
+      $('#grandTotal').text(grandTotal.toFixed(2));
+    };
 
     // Auto logout after 30 seconds of inactivity
     let timer;
