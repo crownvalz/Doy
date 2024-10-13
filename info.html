@@ -1,268 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <title>Personal Information</title>
-    <style>
-        body {
-            background-color: #f4f7fc;
-            font-family: 'Roboto', sans-serif;
-        }
-        .container {
-            margin-top: 50px;
-        }
-        
-        .company-logo {
-            max-width: 50px;
-            margin-right: 10px;
-        }
-        
-        .form-group label {
-            font-weight: bold;
-        }
-        .btn-primary {
-            background-color: #0069d9;
-            border-radius: 5px;
-        }
-        .btn-primary:hover {
-            background-color: #004b99;
-        }
-        .btn-apply {
-            background-color: #0069d9;
-            color: white;
-            border-radius: 5px;
-        }
-        .btn-apply:hover {
-            background-color: #004b99;
-        }
-        .footer-text {
-            text-align: center;
-            padding: 30px 0;
-            background-color: #0069d9;
-            color: white;
-        }
-        .navbar {
-            background-color: #fff;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .navbar-nav .nav-link {
-            font-size: 1rem;
-            margin-right: 20px;
-            color: #333;
-        }
-        .navbar-nav .nav-link.active {
-            color: #0069d9;
-            font-weight: bold;
-        }
-        .navbar-brand {
-            font-size: 1.5rem;
-            color: #0069d9;
-            font-weight: bold;
-        }
-        .navbar-toggler {
-            border: none;
-        }
-        
-        
-        
-        
-        
-        
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Investment Tracker</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
 </head>
 <body>
 
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
-    <div class="container">
-        <a class="navbar-brand" href="index.html">JobFinder Pro</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="home.html">Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="profile.html">Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="applications.html">My Applications</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="info.html">Personal Info</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="settings.html">Settings</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" id="logoutBtn">Logout</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<div class="container mt-5">
+  <h2 class="text-center">UTT AMIS Liquid Product - Investment Tracker</h2>
+  
+  <!-- Add Investment Button -->
+  <div class="d-flex justify-content-end mb-3">
+    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#investmentModal">
+      <i class="fas fa-plus"></i> Add Investment
+    </button>
+  </div>
 
-<!-- Form Section -->
-<div class="container">
-    <h1 class="header-title">Edit Personal Information</h1>
-    <form id="personalInfoForm">
-        <div class="form-group mb-3">
-            <label for="fullName">Full Name</label>
-            <input type="text" class="form-control" id="fullName" placeholder="Enter your full name" required>
-        </div>
-        <div class="form-group mb-3">
-            <label for="email">Email address</label>
-            <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
-        </div>
-        <div class="form-group mb-3">
-            <label for="phone">Phone Number</label>
-            <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number" required>
-        </div>
-        <div class="form-group mb-3">
-            <label for="address">Address</label>
-            <input type="text" class="form-control" id="address" placeholder="Enter your address" required>
-        </div>
-        <div class="form-group mb-3">
-            <label for="dob">Date of Birth</label>
-            <input type="date" class="form-control" id="dob" required>
-        </div>
-        <div class="form-group mb-3">
-            <label>Gender</label><br>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="gender" id="genderMale" value="Male" required>
-                <label class="form-check-label" for="genderMale">Male</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="gender" id="genderFemale" value="Female" required>
-                <label class="form-check-label" for="genderFemale">Female</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="gender" id="genderOther" value="Other" required>
-                <label class="form-check-label" for="genderOther">Other</label>
-            </div>
-        </div>
-        <div class="form-group mb-3">
-            <label for="nationality">Nationality</label>
-            <select class="form-control" id="nationality" required>
-                <option value="" disabled selected>Select your nationality</option>
-                <option value="USA">USA</option>
-                <option value="Canada">Canada</option>
-                <option value="UK">UK</option>
-                <option value="Australia">Australia</option>
-                <option value="Other">Other</option>
-            </select>
-        </div>
-        <div class="form-group mb-4">
-            <label>Hobbies</label><br>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="hobbyReading" value="Reading">
-                <label class="form-check-label" for="hobbyReading">Reading</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="hobbyTraveling" value="Traveling">
-                <label class="form-check-label" for="hobbyTraveling">Traveling</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="hobbySports" value="Sports">
-                <label class="form-check-label" for="hobbySports">Sports</label>
-            </div>
-        </div>
-        <button type="submit" class="btn btn-primary btn-block">Save Changes</button>
-    </form>
+  <!-- Table to Display Investment Data -->
+  <table id="investmentTable" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Amount</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Dynamic Rows will go here -->
+    </tbody>
+    <tfoot>
+      <tr>
+        <th colspan="2">Grand Total</th>
+        <th id="grandTotal">0</th>
+      </tr>
+    </tfoot>
+  </table>
 </div>
 
-<!-- Footer -->
-<div class="footer-text">
-    <p>&copy; 2024 Bank Operations. All rights reserved.</p>
+<!-- Investment Modal -->
+<div class="modal fade" id="investmentModal" tabindex="-1" aria-labelledby="investmentModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="investmentModalLabel">Add Investment</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="investmentForm">
+          <div class="mb-3">
+            <label for="dateInput" class="form-label">Date</label>
+            <input type="date" id="dateInput" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="amountInput" class="form-label">Amount</label>
+            <input type="number" id="amountInput" class="form-control" required>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" id="addInvestmentBtn" class="btn btn-primary">Add Investment</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
-    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+<script>
+  $(document).ready(function() {
+    let investmentTable = $('#investmentTable').DataTable();
+    let grandTotal = 0;
 
+    // Initialize Firebase
     const firebaseConfig = {
-        apiKey: "AIzaSyBe1HYgEzdcZj0ZOgimd1ODz8B-2aztUYs",
-        authDomain: "bank-operations-school.firebaseapp.com",
-        projectId: "bank-operations-school",
-        storageBucket: "bank-operations-school.appspot.com",
-        messagingSenderId: "292213603678",
-        appId: "1:292213603678:web:464bf951de870b94baa3cf"
+      apiKey: "AIzaSyBe1HYgEzdcZj0ZOgimd1ODz8B-2aztUYs",
+      authDomain: "bank-operations-school.firebaseapp.com",
+      projectId: "bank-operations-school",
+      storageBucket: "bank-operations-school.appspot.com",
+      messagingSenderId: "292213603678",
+      appId: "1:292213603678:web:464bf951de870b94baa3cf"
     };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth();
-    const db = getFirestore();
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore(app);
 
-    // Load user data on page load
-    onAuthStateChanged(auth, (user) => {
-        if (!user) {
-            window.location = "index.html"; // Redirect to login if not logged in
-        } else {
-            getUserData(user.uid);
-        }
+    // Add investment to the table and Firebase
+    $('#addInvestmentBtn').on('click', function() {
+      let date = $('#dateInput').val();
+      let amount = parseFloat($('#amountInput').val());
+
+      if (date && amount) {
+        // Calculate new total
+        grandTotal += amount;
+
+        // Add row to table
+        investmentTable.row.add([date, amount.toFixed(2), grandTotal.toFixed(2)]).draw();
+
+        // Update grand total
+        $('#grandTotal').text(grandTotal.toFixed(2));
+
+        // Add to Firebase
+        db.collection("investments").add({
+          date: date,
+          amount: amount,
+          total: grandTotal
+        })
+        .then(() => console.log("Investment added successfully"))
+        .catch(error => console.error("Error adding investment: ", error));
+
+        // Clear inputs and close modal
+        $('#dateInput').val('');
+        $('#amountInput').val('');
+        $('#investmentModal').modal('hide');
+      }
     });
-
-    // Function to get user data
-    async function getUserData(uid) {
-        const docRef = doc(db, "users", uid);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-            const data = docSnap.data();
-            document.getElementById("fullName").value = data.fullName || '';
-            document.getElementById("email").value = data.email || '';
-            document.getElementById("phone").value = data.phone || '';
-            document.getElementById("address").value = data.address || '';
-            document.getElementById("dob").value = data.dob || '';
-            const gender = data.gender || '';
-            if (gender) {
-                document.getElementById(`gender${gender}`).checked = true;
-            }
-            document.getElementById("nationality").value = data.nationality || '';
-            if (data.hobbies) {
-                data.hobbies.forEach(hobby => {
-                    const checkbox = document.getElementById(`hobby${hobby}`);
-                    if (checkbox) {
-                        checkbox.checked = true;
-                    }
-                });
-            }
-        } else {
-            console.log("No such document!");
-        }
-    }
-
-    // Update user data
-    document.getElementById("personalInfoForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const user = auth.currentUser;
-        const userData = {
-            fullName: document.getElementById("fullName").value,
-            email: document.getElementById("email").value,
-            phone: document.getElementById("phone").value,
-            address: document.getElementById("address").value,
-            dob: document.getElementById("dob").value,
-            gender: document.querySelector('input[name="gender"]:checked').value,
-            nationality: document.getElementById("nationality").value,
-            hobbies: Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(checkbox => checkbox.value)
-        };
-        await setDoc(doc(db, "users", user.uid), userData, { merge: true });
-        alert("Personal information updated successfully!");
-    });
-
-    // Logout functionality
-    document.getElementById("logoutBtn").addEventListener("click", async () => {
-        await signOut(auth);
-        window.location = "index.html";
-    });
+  });
 </script>
 
 </body>
