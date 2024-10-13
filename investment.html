@@ -38,6 +38,9 @@
       </tr>
     </tfoot>
   </table>
+
+  <!-- Logout Button -->
+  <button id="logoutBtn" class="btn btn-danger">Logout</button>
 </div>
 
 <!-- Investment Modal -->
@@ -71,8 +74,9 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js"></script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
 <script>
@@ -92,6 +96,7 @@
 
     const app = firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore(app);
+    const auth = firebase.getAuth();
 
     // Add investment to the table and Firebase
     $('#addInvestmentBtn').on('click', function() {
@@ -122,6 +127,29 @@
         $('#amountInput').val('');
         $('#investmentModal').modal('hide');
       }
+    });
+
+    // Auto logout after 30 seconds of inactivity
+    let timer;
+    const resetTimer = () => {
+      clearTimeout(timer);
+      timer = setTimeout(async () => {
+        await firebase.signOut(auth);
+        window.location = "index.html"; // Redirect after sign out
+      }, 30000); // 30 seconds of inactivity
+    };
+
+    // Activity events to track user activity
+    ['click', 'mousemove', 'keypress', 'scroll', 'touchstart'].forEach(event => {
+      window.addEventListener(event, resetTimer);
+    });
+
+    resetTimer(); // Initialize timer on page load
+
+    // Manual logout on button click
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      await firebase.signOut(auth);
+      window.location = "index.html";
     });
   });
 </script>
