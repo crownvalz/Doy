@@ -24,9 +24,33 @@
       background-color: #007bff;
       color: white;
     }
+    /* Preloader styles */
+    #preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    #preloader .spinner-border {
+      width: 3rem;
+      height: 3rem;
+    }
   </style>
 </head>
 <body>
+
+<!-- Preloader -->
+<div id="preloader">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
 
 <div class="container mt-5">
   <h2 class="text-center mb-4">UTT AMIS Liquid Product - Investment Tracker</h2>
@@ -102,141 +126,127 @@
   import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
 
   $(document).ready(function() {
-  let investmentTable = $('#investmentTable').DataTable();
-  let grandTotal = 0;
-  let selectedDocId = null; // To track the document being edited
+    let investmentTable = $('#investmentTable').DataTable();
+    let grandTotal = 0;
+    let selectedDocId = null; // To track the document being edited
 
-  // Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyBe1HYgEzdcZj0ZOgimd1ODz8B-2aztUYs",
-    authDomain: "bank-operations-school.firebaseapp.com",
-    projectId: "bank-operations-school",
-    storageBucket: "bank-operations-school.appspot.com",
-    messagingSenderId: "292213603678",
-    appId: "1:292213603678:web:464bf951de870b94baa3cf"
-  };
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBe1HYgEzdcZj0ZOgimd1ODz8B-2aztUYs",
+      authDomain: "bank-operations-school.firebaseapp.com",
+      projectId: "bank-operations-school",
+      storageBucket: "bank-operations-school.appspot.com",
+      messagingSenderId: "292213603678",
+      appId: "1:292213603678:web:464bf951de870b94baa3cf"
+    };
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-  const auth = getAuth(app);
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
 
-  let currentUserId = null; // Store current user's ID
+    let currentUserId = null; // Store current user's ID
 
-  // Check if user is logged in
-  const checkAuthState = () => {
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        currentUserId = user.uid; // Get the logged-in user's UID
-        loadInvestments(); // Load investments for this user
-      } else {
-        // Redirect to login page if no user is logged in
-        window.location = "login.html";
+    // Check if user is logged in
+    const checkAuthState = () => {
+      auth.onAuthStateChanged(user => {
+        if (user) {
+          currentUserId = user.uid; // Get the logged-in user's UID
+          loadInvestments(); // Load investments for this user
+        } else {
+          // Redirect to login page if no user is logged in
+          window.location = "login.html";
+        }
+      });
+    };
+
+    checkAuthState(); // Check user authentication on page load
+
+    // Fetch investments from Firestore for the logged-in user
+    const loadInvestments = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "users", currentUserId, "investments"));
+        investmentTable.clear(); // Clear the table first to avoid duplication
+        grandTotal = 0; // Reset the grand total
+
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          grandTotal += data.amount;
+
+          // Add row to table with Edit and Delete buttons
+          investmentTable.row.add([
+            data.date,
+            data.amount.toFixed(2),
+            data.total.toFixed(2),
+            `<button class="btn btn-warning edit-btn" data-id="${doc.id}">Edit</button>
+             <button class="btn btn-danger delete-btn" data-id="${doc.id}">Delete</button>`
+          ]).draw(false); // Use `draw(false)` to avoid complete reinitialization of the table
+        });
+
+        // Update grand total display
+        $('#grandTotal').text(grandTotal.toFixed(2));
+      } catch (error) {
+        console.error("Error fetching investments: ", error);
+      } finally {
+        // Hide preloader when loading is complete
+        $('#preloader').hide();
+      }
+    };
+
+    // Add or Edit investment
+    $('#saveInvestmentBtn').on('click', async function() {
+      let date = $('#dateInput').val();
+      let amount = parseFloat($('#amountInput').val());
+
+      if (date && amount) {
+        if (selectedDocId) {
+          // Update existing investment for this user
+          await updateDoc(doc(db, "users", currentUserId, "investments", selectedDocId), { date, amount, total: grandTotal });
+          window.location.reload(); // Refresh the page to update the table
+        } else {
+          // Add new investment for the logged-in user
+          grandTotal += amount;
+          try {
+            await addDoc(collection(db, "users", currentUserId, "investments"), { date, amount, total: grandTotal });
+          } catch (error) {
+            console.error("Error adding investment: ", error);
+          }
+        }
+        $('#investmentModal').modal('hide');
+        loadInvestments(); // Reload the table after adding the new data
+        investmentTable.draw(); // Redraw the table with updated data
       }
     });
-  };
 
-  checkAuthState(); // Check user authentication on page load
+    // Edit Investment
+    $('#investmentTable tbody').on('click', '.edit-btn', function() {
+      selectedDocId = $(this).data('id');
+      const rowData = investmentTable.row($(this).parents('tr')).data();
+      $('#dateInput').val(rowData[0]);
+      $('#amountInput').val(rowData[1]);
+      $('#investmentModal').modal('show');
+    });
 
-  // Fetch investments from Firestore for the logged-in user
-  const loadInvestments = async () => {
-    try {
-      const querySnapshot = await getDocs(collection(db, "users", currentUserId, "investments"));
-      investmentTable.clear(); // Clear the table first to avoid duplication
-      grandTotal = 0; // Reset the grand total
-
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        grandTotal += data.amount;
-
-        // Add row to table with Edit and Delete buttons
-        investmentTable.row.add([
-          data.date,
-          data.amount.toFixed(2),
-          data.total.toFixed(2),
-          `<button class="btn btn-warning edit-btn" data-id="${doc.id}">Edit</button>
-           <button class="btn btn-danger delete-btn" data-id="${doc.id}">Delete</button>`
-        ]).draw(false); // Use `draw(false)` to avoid complete reinitialization of the table
-      });
-
-      // Update grand total display
-      $('#grandTotal').text(grandTotal.toFixed(2));
-    } catch (error) {
-      console.error("Error fetching investments: ", error);
-    }
-  };
-
-  // Add or Edit investment
-  $('#saveInvestmentBtn').on('click', async function() {
-    let date = $('#dateInput').val();
-    let amount = parseFloat($('#amountInput').val());
-
-    if (date && amount) {
-      if (selectedDocId) {
-        // Update existing investment for this user
-        await updateDoc(doc(db, "users", currentUserId, "investments", selectedDocId), { date, amount, total: grandTotal });
-        window.location.reload(); // Refresh the page to update the table
-      } else {
-        // Add new investment for the logged-in user
-        grandTotal += amount;
-        try {
-          await addDoc(collection(db, "users", currentUserId, "investments"), { date, amount, total: grandTotal });
-        } catch (error) {
-          console.error("Error adding investment: ", error);
-        }
+    // Delete Investment
+    $('#investmentTable tbody').on('click', '.delete-btn', async function() {
+      const docId = $(this).data('id');
+      try {
+        await deleteDoc(doc(db, "users", currentUserId, "investments", docId));
+        loadInvestments(); // Refresh the investment data
+      } catch (error) {
+        console.error("Error deleting investment: ", error);
       }
-      $('#investmentModal').modal('hide');
-      loadInvestments(); // Reload the table after adding the new data
-      investmentTable.draw(); // Redraw the table with updated data
-    }
+    });
+
+    // Logout Functionality
+    $('#logoutBtn').on('click', function() {
+      signOut(auth).then(() => {
+        window.location = "login.html"; // Redirect to login page
+      }).catch((error) => {
+        console.error("Error logging out: ", error);
+      });
+    });
   });
-
-  // Edit Investment
-  $('#investmentTable tbody').on('click', '.edit-btn', function() {
-    selectedDocId = $(this).data('id');
-    let rowData = investmentTable.row($(this).parents('tr')).data();
-    $('#dateInput').val(rowData[0]);
-    $('#amountInput').val(parseFloat(rowData[1]));
-    $('#investmentModal').modal('show');
-  });
-
-  // Delete Investment
-  $('#investmentTable tbody').on('click', '.delete-btn', async function() {
-    let docId = $(this).data('id');
-    try {
-      await deleteDoc(doc(db, "users", currentUserId, "investments", docId));
-      window.location.reload(); // Refresh the page to update the table
-    } catch (error) {
-      console.error("Error deleting investment: ", error);
-    }
-  });
-
-  // Auto logout after 30 seconds of inactivity
-  let timer;
-  const resetTimer = () => {
-    clearTimeout(timer);
-    timer = setTimeout(async () => {
-      await signOut(auth);
-      window.location = "index.html"; // Redirect after sign out
-    }, 30000); // 30 seconds of inactivity
-  };
-
-  // Activity events to track user activity
-  ['click', 'mousemove', 'keypress', 'scroll', 'touchstart'].forEach(event => {
-    window.addEventListener(event, resetTimer);
-  });
-
-  resetTimer(); // Initialize timer on page load
-
-  // Manual logout on button click
-  document.getElementById("logoutBtn").addEventListener("click", async () => {
-    if (confirm("Are you sure you want to logout?")) {
-      await signOut(auth);
-      window.location = "index.html";
-    }
-  });
-});
 </script>
-
 </body>
 </html>
