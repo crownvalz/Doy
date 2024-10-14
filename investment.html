@@ -155,7 +155,7 @@
           loadInvestments(); // Load investments for this user
         } else {
           // Redirect to login page if no user is logged in
-          window.location = "login.html";
+          window.location = "index.html";
         }
       });
     };
@@ -241,7 +241,7 @@
     // Logout Functionality
     $('#logoutBtn').on('click', function() {
       signOut(auth).then(() => {
-        window.location = "login.html"; // Redirect to login page
+        window.location = "index.html"; // Redirect to login page
       }).catch((error) => {
         console.error("Error logging out: ", error);
       });
