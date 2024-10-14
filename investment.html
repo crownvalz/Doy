@@ -121,10 +121,27 @@
   const db = getFirestore(app);
   const auth = getAuth(app);
 
-  // Fetch investments from Firestore on page load
+  let currentUserId = null; // Store current user's ID
+
+  // Check if user is logged in
+  const checkAuthState = () => {
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        currentUserId = user.uid; // Get the logged-in user's UID
+        loadInvestments(); // Load investments for this user
+      } else {
+        // Redirect to login page if no user is logged in
+        window.location = "login.html";
+      }
+    });
+  };
+
+  checkAuthState(); // Check user authentication on page load
+
+  // Fetch investments from Firestore for the logged-in user
   const loadInvestments = async () => {
     try {
-      const querySnapshot = await getDocs(collection(db, "investments"));
+      const querySnapshot = await getDocs(collection(db, "users", currentUserId, "investments"));
       investmentTable.clear(); // Clear the table first to avoid duplication
       grandTotal = 0; // Reset the grand total
 
@@ -149,9 +166,6 @@
     }
   };
 
-  // Call loadInvestments on page load
-  loadInvestments();
-
   // Add or Edit investment
   $('#saveInvestmentBtn').on('click', async function() {
     let date = $('#dateInput').val();
@@ -159,14 +173,14 @@
 
     if (date && amount) {
       if (selectedDocId) {
-        // Update existing investment
-        await updateDoc(doc(db, "investments", selectedDocId), { date, amount, total: grandTotal });
+        // Update existing investment for this user
+        await updateDoc(doc(db, "users", currentUserId, "investments", selectedDocId), { date, amount, total: grandTotal });
         window.location.reload(); // Refresh the page to update the table
       } else {
-        // Add new investment to Firestore
+        // Add new investment for the logged-in user
         grandTotal += amount;
         try {
-          await addDoc(collection(db, "investments"), { date, amount, total: grandTotal });
+          await addDoc(collection(db, "users", currentUserId, "investments"), { date, amount, total: grandTotal });
         } catch (error) {
           console.error("Error adding investment: ", error);
         }
@@ -190,7 +204,7 @@
   $('#investmentTable tbody').on('click', '.delete-btn', async function() {
     let docId = $(this).data('id');
     try {
-      await deleteDoc(doc(db, "investments", docId));
+      await deleteDoc(doc(db, "users", currentUserId, "investments", docId));
       window.location.reload(); // Refresh the page to update the table
     } catch (error) {
       console.error("Error deleting investment: ", error);
