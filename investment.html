@@ -197,7 +197,8 @@
     // Fetch investments from Firestore
     const loadInvestments = async () => {
       const querySnapshot = await getDocs(collection(db, "users", currentUserId, "investments"));
-      investmentTable.clear();
+      
+      investmentTable.clear(); // Clear existing data to avoid duplication
       grandTotal = 0;
 
       querySnapshot.forEach((doc) => {
@@ -214,6 +215,11 @@
       });
 
       $('#grandTotal').text(grandTotal.toLocaleString());
+
+      // Hide the preloader after data loads
+      $('#preloader').fadeOut('slow', function() {
+        $(this).remove();
+      });
     };
 
     // Add or Edit investment
@@ -222,16 +228,9 @@
       let amount = parseFloat($('#amountInput').val());
 
       if (date && amount) {
-        if (selectedDocId) {
-          await updateDoc(doc(db, "users", currentUserId, "investments", selectedDocId), { date, amount, total: grandTotal });
-          window.location.reload();
-        } else {
-          grandTotal +=
-
- amount;
-          await addDoc(collection(db, "users", currentUserId, "investments"), { date, amount, total: grandTotal });
-          window.location.reload();
-        }
+        grandTotal += amount;
+        await addDoc(collection(db, "users", currentUserId, "investments"), { date, amount, total: grandTotal });
+        window.location.reload();
       }
     });
 
@@ -250,13 +249,6 @@
     // Logout
     $('#logoutBtn').on('click', function() {
       signOut(auth);
-    });
-
-    // Hide preloader after data loads
-    $(window).on('load', function() {
-      $('#preloader').fadeOut('slow', function() {
-        $(this).remove();
-      });
     });
   });
 </script>
