@@ -24,7 +24,6 @@
       background-color: #007bff;
       color: white;
     }
-    /* Preloader styles */
     #preloader {
       position: fixed;
       top: 0;
@@ -45,6 +44,11 @@
 </head>
 <body>
 
+<!-- Header -->
+<header class="bg-primary text-white text-center py-3">
+  <h1>Investment Tracker</h1>
+</header>
+
 <!-- Preloader -->
 <div id="preloader">
   <div class="spinner-border" role="status">
@@ -55,10 +59,13 @@
 <div class="container mt-5">
   <h2 class="text-center mb-4">UTT AMIS Liquid Product - Investment Tracker</h2>
   
-  <!-- Add Investment Button -->
-  <div class="d-flex justify-content-end mb-3">
+  <!-- Add Investment and Withdraw Buttons -->
+  <div class="d-flex justify-content-between mb-3">
     <button class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#investmentModal">
       <i class="fas fa-plus"></i> Add Investment
+    </button>
+    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#withdrawModal">
+      <i class="fas fa-minus"></i> Withdraw
     </button>
   </div>
 
@@ -69,7 +76,7 @@
         <th>Date</th>
         <th>Amount</th>
         <th>Total</th>
-        <th>Actions</th> <!-- New Column for Edit/Delete Buttons -->
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -87,6 +94,11 @@
   <!-- Logout Button -->
   <button id="logoutBtn" class="btn btn-danger">Logout</button>
 </div>
+
+<!-- Footer -->
+<footer class="bg-light text-center py-3 mt-5">
+  <p>&copy; 2024 Investment Tracker. All Rights Reserved.</p>
+</footer>
 
 <!-- Investment Modal -->
 <div class="modal fade" id="investmentModal" tabindex="-1" aria-labelledby="investmentModalLabel" aria-hidden="true">
@@ -116,6 +128,34 @@
   </div>
 </div>
 
+<!-- Withdraw Modal -->
+<div class="modal fade" id="withdrawModal" tabindex="-1" aria-labelledby="withdrawModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="withdrawModalLabel">Withdraw Amount</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="withdrawForm">
+          <div class="mb-3">
+            <label for="withdrawDateInput" class="form-label">Date</label>
+            <input type="date" id="withdrawDateInput" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="withdrawAmountInput" class="form-label">Amount</label>
+            <input type="number" id="withdrawAmountInput" class="form-control" required>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" id="saveWithdrawBtn" class="btn btn-danger">Withdraw</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -128,69 +168,52 @@
   $(document).ready(function() {
     let investmentTable = $('#investmentTable').DataTable();
     let grandTotal = 0;
-    let selectedDocId = null; // To track the document being edited
+    let selectedDocId = null;
 
     // Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyBe1HYgEzdcZj0ZOgimd1ODz8B-2aztUYs",
-      authDomain: "bank-operations-school.firebaseapp.com",
-      projectId: "bank-operations-school",
-      storageBucket: "bank-operations-school.appspot.com",
-      messagingSenderId: "292213603678",
-      appId: "1:292213603678:web:464bf951de870b94baa3cf"
-    };
+    const firebaseConfig = { /* Your Firebase Config */ };
 
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const auth = getAuth(app);
 
-    let currentUserId = null; // Store current user's ID
+    let currentUserId = null;
 
     // Check if user is logged in
     const checkAuthState = () => {
       auth.onAuthStateChanged(user => {
         if (user) {
-          currentUserId = user.uid; // Get the logged-in user's UID
-          loadInvestments(); // Load investments for this user
+          currentUserId = user.uid;
+          loadInvestments();
         } else {
-          // Redirect to login page if no user is logged in
           window.location = "index.html";
         }
       });
     };
 
-    checkAuthState(); // Check user authentication on page load
+    checkAuthState();
 
-    // Fetch investments from Firestore for the logged-in user
+    // Fetch investments from Firestore
     const loadInvestments = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, "users", currentUserId, "investments"));
-        investmentTable.clear(); // Clear the table first to avoid duplication
-        grandTotal = 0; // Reset the grand total
+      const querySnapshot = await getDocs(collection(db, "users", currentUserId, "investments"));
+      investmentTable.clear();
+      grandTotal = 0;
 
-        querySnapshot.forEach((doc) => {
-          const data = doc.data();
-          grandTotal += data.amount;
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        grandTotal += data.amount;
 
-          // Add row to table with Edit and Delete buttons
-          investmentTable.row.add([
-            data.date,
-            data.amount.toFixed(2),
-            data.total.toFixed(2),
-            `<button class="btn btn-warning edit-btn" data-id="${doc.id}">Edit</button>
-             <button class="btn btn-danger delete-btn" data-id="${doc.id}">Delete</button>`
-          ]).draw(false); // Use `draw(false)` to avoid complete reinitialization of the table
-        });
+        investmentTable.row.add([
+          data.date,
+          data.amount.toLocaleString(),
+          data.total.toLocaleString(),
+          `<button class="btn btn-warning edit-btn" data-id="${doc.id}">Edit</button>
+           <button class="btn btn-danger delete-btn" data-id="${doc.id}">Delete</button>`
+        ]).draw(false);
+      });
 
-        // Update grand total display
-        $('#grandTotal').text(grandTotal.toFixed(2));
-      } catch (error) {
-        console.error("Error fetching investments: ", error);
-      } finally {
-        // Hide preloader when loading is complete
-        $('#preloader').hide();
-      }
+      $('#grandTotal').text(grandTotal.toLocaleString());
     };
 
     // Add or Edit investment
@@ -200,53 +223,43 @@
 
       if (date && amount) {
         if (selectedDocId) {
-          // Update existing investment for this user
           await updateDoc(doc(db, "users", currentUserId, "investments", selectedDocId), { date, amount, total: grandTotal });
-          window.location.reload(); // Refresh the page to update the table
+          window.location.reload();
         } else {
-          // Add new investment for the logged-in user
-          grandTotal += amount;
-          try {
-            await addDoc(collection(db, "users", currentUserId, "investments"), { date, amount, total: grandTotal });
-          } catch (error) {
-            console.error("Error adding investment: ", error);
-          }
+          grandTotal +=
+
+ amount;
+          await addDoc(collection(db, "users", currentUserId, "investments"), { date, amount, total: grandTotal });
+          window.location.reload();
         }
-        $('#investmentModal').modal('hide');
-        loadInvestments(); // Reload the table after adding the new data
-        investmentTable.draw(); // Redraw the table with updated data
       }
     });
 
-    // Edit Investment
-    $('#investmentTable tbody').on('click', '.edit-btn', function() {
-      selectedDocId = $(this).data('id');
-      const rowData = investmentTable.row($(this).parents('tr')).data();
-      $('#dateInput').val(rowData[0]);
-      $('#amountInput').val(rowData[1]);
-      $('#investmentModal').modal('show');
-    });
+    // Withdraw amount
+    $('#saveWithdrawBtn').on('click', async function() {
+      let date = $('#withdrawDateInput').val();
+      let amount = parseFloat($('#withdrawAmountInput').val());
 
-    // Delete Investment
-    $('#investmentTable tbody').on('click', '.delete-btn', async function() {
-      const docId = $(this).data('id');
-      try {
-        await deleteDoc(doc(db, "users", currentUserId, "investments", docId));
-        loadInvestments(); // Refresh the investment data
-      } catch (error) {
-        console.error("Error deleting investment: ", error);
+      if (date && amount) {
+        grandTotal -= amount;
+        await addDoc(collection(db, "users", currentUserId, "withdrawals"), { date, amount, total: grandTotal });
+        window.location.reload();
       }
     });
 
-    // Logout Functionality
+    // Logout
     $('#logoutBtn').on('click', function() {
-      signOut(auth).then(() => {
-        window.location = "index.html"; // Redirect to login page
-      }).catch((error) => {
-        console.error("Error logging out: ", error);
+      signOut(auth);
+    });
+
+    // Hide preloader after data loads
+    $(window).on('load', function() {
+      $('#preloader').fadeOut('slow', function() {
+        $(this).remove();
       });
     });
   });
 </script>
+
 </body>
 </html>
