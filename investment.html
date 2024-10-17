@@ -171,81 +171,46 @@
     let selectedDocId = null; // To track the document being edited
 
     // Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyBe1HYgEzdcZj0ZOgimd1ODz8B-2aztUYs",
-      authDomain: "bank-operations-school.firebaseapp.com",
-      projectId: "bank-operations-school",
-      storageBucket: "bank-operations-school.appspot.com",
-      messagingSenderId: "292213603678",
-      appId: "1:292213603678:web:464bf951de870b94baa3cf"
-    };
+    const firebaseConfig = { /* Your Firebase config */ };
 
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const auth = getAuth(app);
 
-    let currentUserId = null; // Store current user's ID
+    let currentUserId = null;
 
-    // Check if user is logged in
-    const checkAuthState = () => {
-      auth.onAuthStateChanged(user => {
-        if (user) {
-          currentUserId = user.uid; // Get the logged-in user's UID
-          loadInvestments(); // Load investments for this user
-        } else {
-          // Redirect to login page if no user is logged in
-          window.location = "index.html";
-        }
+    // Check Auth and load investments
+    const checkAuthState = () => { /* existing code */ };
+    checkAuthState();
+
+    const loadInvestments = async () => { /* existing code */ };
+
+    // Helper function to format number with commas
+    const formatNumberWithCommas = (num) => {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    };
+
+    // Format input fields with commas while typing
+    const formatInputField = (inputField) => {
+      inputField.on("input", function () {
+        let value = $(this).val().replace(/,/g, ""); // Remove commas before processing
+        $(this).val(formatNumberWithCommas(value));
       });
     };
 
-    checkAuthState(); // Check user authentication on page load
-
-    // Fetch investments from Firestore for the logged-in user
-    const loadInvestments = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, "users", currentUserId, "investments"));
-        investmentTable.clear(); // Clear the table first to avoid duplication
-        grandTotal = 0; // Reset the grand total
-
-        querySnapshot.forEach((doc) => {
-          const data = doc.data();
-          grandTotal += data.amount;
-
-          // Add row to table with Edit and Delete buttons
-          investmentTable.row.add([
-            data.date,
-            data.amount.toLocaleString(),
-            data.total.toLocaleString(),
-            `<button class="btn btn-warning edit-btn" data-id="${doc.id}">Edit</button>
-             <button class="btn btn-danger delete-btn" data-id="${doc.id}">Delete</button>`
-          ]).draw(false); // Use `draw(false)` to avoid complete reinitialization of the table
-        });
-
-        // Update grand total display
-        $('#grandTotal').text(grandTotal.toLocaleString());
-      } catch (error) {
-        console.error("Error fetching investments: ", error);
-      } finally {
-        // Hide preloader when loading is complete
-        $('#preloader').fadeOut('slow', function() {
-          $(this).remove();
-        });
-      }
-    };
+    // Apply comma formatting to the investment and withdrawal input fields
+    formatInputField($('#amountInput'));
+    formatInputField($('#withdrawAmountInput'));
 
     // Add or Edit investment
     $('#saveInvestmentBtn').on('click', async function() {
       let date = $('#dateInput').val();
-      let amount = parseFloat($('#amountInput').val());
+      let amount = parseFloat($('#amountInput').val().replace(/,/g, "")); // Remove commas for calculation
 
       if (date && amount) {
         if (selectedDocId) {
-          // Update existing investment for this user
           await updateDoc(doc(db, "users", currentUserId, "investments", selectedDocId), { date, amount, total: grandTotal });
         } else {
-          // Add new investment for the logged-in user
           grandTotal += amount;
           try {
             await addDoc(collection(db, "users", currentUserId, "investments"), { date, amount, total: grandTotal });
@@ -254,44 +219,32 @@
           }
         }
         $('#investmentModal').modal('hide');
-        loadInvestments(); // Reload the table after adding the new data
-      }
-    });
-
-    // Edit Investment
-    $('#investmentTable tbody').on('click', '.edit-btn', function() {
-      selectedDocId = $(this).data('id');
-      const rowData = investmentTable.row($(this).parents('tr')).data();
-      $('#dateInput').val(rowData[0]);
-      $('#amountInput').val(rowData[1]);
-      $('#investmentModal').modal('show');
-    });
-
-    // Delete Investment
-    $('#investmentTable tbody').on('click', '.delete-btn', async function() {
-      const docId = $(this).data('id');
-      try {
-        await deleteDoc(doc(db, "users", currentUserId, "investments", docId));
-        loadInvestments(); // Refresh the investment data
-      } catch (error) {
-        console.error("Error deleting investment: ", error);
+        loadInvestments();
       }
     });
 
     // Add Withdrawal functionality
     $('#saveWithdrawBtn').on('click', async function() {
       let date = $('#withdrawDateInput').val();
-      let amount = parseFloat($('#withdrawAmountInput').val());
+      let amount = parseFloat($('#withdrawAmountInput').val().replace(/,/g, "")); // Remove commas for calculation
 
       if (date && amount && amount <= grandTotal) {
         grandTotal -= amount; // Deduct the amount from the grand total
         try {
           await addDoc(collection(db, "users", currentUserId, "withdrawals"), { date, amount, total: grandTotal });
+
+          // Add the withdrawal to the table
+          investmentTable.row.add([
+            date,
+            `-${amount.toLocaleString()}`, // Show withdrawal as negative
+            grandTotal.toLocaleString(),
+            "Withdrawal" // Mark this row as a withdrawal
+          ]).draw(false);
         } catch (error) {
           console.error("Error adding withdrawal: ", error);
         }
         $('#withdrawModal').modal('hide');
-        loadInvestments(); // Reload the table to reflect the updated total
+        $('#grandTotal').text(grandTotal.toLocaleString());
       } else {
         alert("Withdrawal amount exceeds current balance or invalid input");
       }
