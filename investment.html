@@ -162,13 +162,13 @@
 <script type="module">
   // Firebase imports
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-  import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
   import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
 
   $(document).ready(function() {
     let investmentTable = $('#investmentTable').DataTable();
     let grandTotal = 0;
-    let selectedDocId = null; // To track the document being edited
+    let currentUserId = null; // Store current user's ID
 
     // Firebase configuration
     const firebaseConfig = {
@@ -184,8 +184,6 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const auth = getAuth(app);
-
-    let currentUserId = null; // Store current user's ID
 
     // Check if user is logged in
     const checkAuthState = () => {
@@ -217,9 +215,8 @@
           investmentTable.row.add([
             data.date,
             data.amount.toLocaleString(),
-            data.total.toLocaleString(),
-            `<button class="btn btn-warning edit-btn" data-id="${doc.id}">Edit</button>
-             <button class="btn btn-danger delete-btn" data-id="${doc.id}">Delete</button>`
+            grandTotal.toLocaleString(), // Use grandTotal to display total invested
+            `<button class="btn btn-danger delete-btn" data-id="${doc.id}">Delete</button>`
           ]).draw(false); // Use `draw(false)` to avoid complete reinitialization of the table
         });
 
@@ -243,13 +240,44 @@
           await addDoc(collection(db, "users", currentUserId, "investments"), {
             date: date,
             amount: amount,
-            total: grandTotal + amount
           });
           $('#investmentModal').modal('hide');
           loadInvestments(); // Reload the table after adding new data
         } catch (error) {
           console.error("Error adding investment: ", error);
         }
+      }
+    });
+
+    // Withdraw Amount Button click event
+    $('#saveWithdrawBtn').on('click', async function() {
+      const withdrawDate = $('#withdrawDateInput').val();
+      const withdrawAmount = parseFloat($('#withdrawAmountInput').val());
+
+      if (withdrawDate && withdrawAmount > 0 && withdrawAmount <= grandTotal) {
+        try {
+          // Add withdrawal record to Firestore
+          await addDoc(collection(db, "users", currentUserId, "withdrawals"), {
+            date: withdrawDate,
+            amount: withdrawAmount,
+          });
+          
+          // Update grand total
+          grandTotal -= withdrawAmount;
+
+          // Update grand total display
+          $('#grandTotal').text(grandTotal.toLocaleString());
+
+          // Optionally, you can create a record of total investment after withdrawal if needed
+          // await updateDoc(doc(db, "users", currentUserId, "totalInvestments", "current"), { total: grandTotal });
+
+          $('#withdrawModal').modal('hide');
+          loadInvestments(); // Reload the table after withdrawal
+        } catch (error) {
+          console.error("Error processing withdrawal: ", error);
+        }
+      } else {
+        alert("Invalid withdrawal amount or insufficient funds.");
       }
     });
 
