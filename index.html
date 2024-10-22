@@ -1,151 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <title>Login & Registration</title>
+    <title>HR System - Login & Registration</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        /* Stylish custom color theme */
         body {
-            background-color: #f8f9fa;
+            background-color: #f0f2f5;
+            color: #333;
+            font-family: 'Arial', sans-serif;
         }
-        .form-container {
-            max-width: 400px;
-            padding: 20px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-top: 50px;
+
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
-        .navbar {
-            margin-bottom: 20px;
+
+        .btn-primary {
+            background-color: #ef233c;
+            border-color: #ef233c;
         }
-        .header-title {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #343a40;
+
+        .btn-primary:hover {
+            background-color: #d90429;
+            border-color: #d90429;
         }
-        .footer-text {
-            text-align: center;
-            margin-top: 20px;
+
+        .form-control:focus {
+            border-color: #ef233c;
+            box-shadow: 0 0 5px rgba(239, 35, 60, 0.5);
+        }
+
+        /* Background gradient */
+        .auth-background {
+            background: linear-gradient(135deg, #8d99ae 40%, #2b2d42 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h2 {
+            color: #2b2d42;
+            font-weight: bold;
+        }
+
+        p a {
+            color: #ef233c;
+            text-decoration: none;
+        }
+
+        p a:hover {
+            text-decoration: underline;
+        }
+
+        .auth-container {
+            max-width: 450px;
+            width: 100%;
         }
     </style>
 </head>
-<body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container">
-        <a class="navbar-brand" href="#">Bank Operations</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Kazini</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" href="index.html">Login</a>
+                    <a class="nav-link" aria-current="page" href="#">Bookings</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="home.html">Home</a>
+                    <a class="nav-link" href="#">Contacts</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Business
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
                 </li>
             </ul>
+            <button id="logoutBtn" class="btn btn-outline-primary">Get Started</button>
         </div>
     </div>
 </nav>
+    <div class="auth-background">
+        <div class="auth-container">
+            <!-- Login Form -->
+            <div id="loginForm" class="card shadow p-4">
+                <h2 class="text-center mb-4">Login</h2>
+                <div class="mb-3">
+                    <label for="loginEmail" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="loginEmail" placeholder="Enter your email">
+                </div>
+                <div class="mb-3">
+                    <label for="loginPassword" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="loginPassword" placeholder="Enter your password">
+                </div>
+                <button id="loginBtn" class="btn btn-primary w-100">Login</button>
+                <div class="text-center mt-3">
+                    <p>Don't have an account? <a href="#" id="showRegister">Register</a></p>
+                </div>
+            </div>
 
-<div class="container">
-    <div class="form-container">
-        <h2 class="header-title">Welcome</h2>
-        <div id="loginForm" class="mb-3">
-            <h5 class="text-center">Login</h5>
-            <div class="form-group">
-                <input type="email" id="loginEmail" class="form-control" placeholder="Email" required>
-            </div>
-            <div class="form-group">
-                <input type="password" id="loginPassword" class="form-control" placeholder="Password" required>
-            </div>
-            <button class="btn btn-primary btn-block" id="loginBtn">Login</button>
-            <div class="text-center mt-2">
-                <a href="#" id="showRegister">Create an account</a>
-            </div>
-        </div>
-
-        <div id="registerForm" class="mb-3 d-none">
-            <h5 class="text-center">Register</h5>
-            <div class="form-group">
-                <input type="email" id="registerEmail" class="form-control" placeholder="Email" required>
-            </div>
-            <div class="form-group">
-                <input type="password" id="registerPassword" class="form-control" placeholder="Password" required>
-            </div>
-            <button class="btn btn-success btn-block" id="registerBtn">Register</button>
-            <div class="text-center mt-2">
-                <a href="#" id="showLogin">Already have an account?</a>
+            <!-- Registration Form (Hidden initially) -->
+            <div id="registerForm" class="card shadow p-4 d-none">
+                <h2 class="text-center mb-4">Register</h2>
+                <form id="registerFormContent">
+                    <div class="mb-3">
+                        <label for="registerFullName" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="registerFullName" placeholder="Enter your full name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="registerEmail" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="registerEmail" placeholder="Enter your email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="registerPhone" class="form-label">Phone</label>
+                        <input type="text" class="form-control" id="registerPhone" placeholder="Enter your phone number">
+                    </div>
+                    <div class="mb-3">
+                        <label for="registerPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="registerPassword" placeholder="Enter your password">
+                    </div>
+                    <button type="button" id="registerBtn" class="btn btn-primary w-100">Register</button>
+                </form>
+                <div class="text-center mt-3">
+                    <p>Already have an account? <a href="#" id="showLogin">Login</a></p>
+                </div>
             </div>
         </div>
     </div>
-    <div class="footer-text">
-        <p>&copy; 2024 Bank Operations. All Rights Reserved.</p>
-    </div>
-</div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Toggle between login and register forms
+        document.getElementById('showRegister').addEventListener('click', function (e) {
+            e.preventDefault();
+            document.getElementById('loginForm').classList.add('d-none');
+            document.getElementById('registerForm').classList.remove('d-none');
+        });
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+        document.getElementById('showLogin').addEventListener('click', function (e) {
+            e.preventDefault();
+            document.getElementById('registerForm').classList.add('d-none');
+            document.getElementById('loginForm').classList.remove('d-none');
+        });
+    </script>
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyBe1HYgEzdcZj0ZOgimd1ODz8B-2aztUYs",
-        authDomain: "bank-operations-school.firebaseapp.com",
-        projectId: "bank-operations-school",
-        storageBucket: "bank-operations-school.appspot.com",
-        messagingSenderId: "292213603678",
-        appId: "1:292213603678:web:464bf951de870b94baa3cf"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth();
-
-    document.getElementById("loginBtn").addEventListener("click", async () => {
-        const email = document.getElementById("loginEmail").value;
-        const password = document.getElementById("loginPassword").value;
-
-        try {
-            await signInWithEmailAndPassword(auth, email, password);
-            window.location = "home.html"; // Redirect to home.html
-        } catch (error) {
-            alert(error.message); // Display error message
-        }
-    });
-
-    document.getElementById("registerBtn").addEventListener("click", async () => {
-        const email = document.getElementById("registerEmail").value;
-        const password = document.getElementById("registerPassword").value;
-
-        try {
-            await createUserWithEmailAndPassword(auth, email, password);
-            alert("Registration successful! You can now log in.");
-            document.getElementById("registerEmail").value = '';
-            document.getElementById("registerPassword").value = '';
-        } catch (error) {
-            alert(error.message); // Display error message
-        }
-    });
-
-    document.getElementById("showRegister").addEventListener("click", (e) => {
-        e.preventDefault();
-        document.getElementById("loginForm").classList.add("d-none");
-        document.getElementById("registerForm").classList.remove("d-none");
-    });
-
-    document.getElementById("showLogin").addEventListener("click", (e) => {
-        e.preventDefault();
-        document.getElementById("registerForm").classList.add("d-none");
-        document.getElementById("loginForm").classList.remove("d-none");
-    });
-</script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="assets/js/login.js" defer></script>
 </body>
+
 </html>

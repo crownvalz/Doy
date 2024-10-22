@@ -1,0 +1,62 @@
+body {
+    background-color: #f4f7fc;
+    font-family: 'Roboto', sans-serif;
+}
+
+.container {
+    margin-top: 50px;
+}
+
+.company-logo {
+    max-width: 50px;
+    margin-right: 10px;
+}
+
+.form-group label {
+    font-weight: bold;
+}
+.btn-primary {
+    background-color: #0069d9;
+    border-radius: 5px;
+}
+
+.btn-primary:hover {
+    background-color: #004b99;
+}
+
+.btn-apply {
+    background-color: #0069d9;
+    color: white;
+    border-radius: 5px;
+}
+
+.btn-apply:hover {
+    background-color: #004b99;
+}
+
+.navbar {
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-nav .nav-link {
+    font-size: 1rem;
+    margin-right: 20px;
+    color: #333;
+}
+
+.navbar-nav .nav-link.active {
+    color: #0069d9;
+    font-weight: bold;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    color: #0069d9;
+    font-weight: bold;
+}
+
+.navbar-toggler {
+    border: none;
+}
+

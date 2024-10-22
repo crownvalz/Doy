@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR System - Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom theme colors */
+        body {
+            background-color: #f0f2f5;
+            color: #7b7a7a;
+        }
+        /* Navbar styling */
+        .navbar {
+            background-color: #000000;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #edf2f4 !important;
+        }
+
+        .navbar-nav .nav-link {
+            color: #edf2f4 !important;
+            margin-left: 1rem;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23edf2f4' viewBox='0 0 30 30'%3E%3Cpath stroke='%23edf2f4' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+        }
+        .profile-header {
+            background: linear-gradient(135deg, #8d99ae 40%, #2b2d42 100%);
+            color: white;
+            padding: 50px 0;
+        }
+
+        .profile-header h2 {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .profile-header img {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border: 5px solid #fff;
+        }
+
+        .btn-primary {
+            background-color: #ef233c;
+            border-color: #ef233c;
+        }
+
+        .btn-primary:hover {
+            background-color: #d90429;
+            border-color: #d90429;
+        }
+
+        .profile-details h5 {
+            color: #2b2d42;
+            font-weight: bold;
+        }
+
+        .profile-card {
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
+
+        .profile-card .card-body {
+            padding: 30px;
+        }
+
+        .profile-info label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="home.html">HR System</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse text-center" id="navbarNav">
+              <ul class="navbar-nav ms-auto d-flex align-items-center">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="https://via.placeholder.com/40" alt="Profile Image" class="rounded-circle me-2">
+                        John Doe
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="profileEdit.html">Profile</a></li>
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><a class="dropdown-item" href="#">My Resume</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" id="logoutBtn">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+                <div class="navbar-profile">
+                    <a href="#" class="nav-link text-white">
+                        <i class="bi bi-bell"></i>
+                    </a>
+                    <a href="#" class="nav-link text-white">
+                        <i class="bi bi-gear"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Profile Header -->
+    <section class="profile-header text-center">
+        <div class="container">
+            <img src="https://via.placeholder.com/150" alt="Profile Image">
+            <h2 class="mt-4">John Doe</h2>
+            <p>Software Engineer at HR System</p>
+            <button class="btn btn-primary mt-3">Edit Profile</button>
+        </div>
+    </section>
+
+    <!-- Profile Information Section -->
+    <section class="profile-details py-5">
+        <div class="container">
+            <div class="row">
+                <!-- Personal Information Card -->
+                <div class="col-md-6 mb-4">
+                    <div class="profile-card card shadow">
+                        <div class="card-body">
+                            <h5>Personal Information</h5>
+                            <hr>
+                            <div class="profile-info">
+                                <div class="mb-3">
+                                    <label>Full Name:</label>
+                                    <p>John Doe</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label>Email Address:</label>
+                                    <p>john.doe@example.com</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label>Phone:</label>
+                                    <p>+123-456-7890</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label>Address:</label>
+                                    <p>123 Main Street, City, Country</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Job Information Card -->
+                <div class="col-md-6 mb-4">
+                    <div class="profile-card card shadow">
+                        <div class="card-body">
+                            <h5>Job Information</h5>
+                            <hr>
+                            <div class="profile-info">
+                                <div class="mb-3">
+                                    <label>Position:</label>
+                                    <p>Software Engineer</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label>Department:</label>
+                                    <p>IT Department</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label>Date Joined:</label>
+                                    <p>January 1, 2020</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label>Manager:</label>
+                                    <p>Jane Smith</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Details or Settings Section -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="profile-card card shadow">
+                        <div class="card-body">
+                            <h5>Settings & Preferences</h5>
+                            <hr>
+                            <p>Here you can manage your preferences, update password, and notification settings.</p>
+                            <button class="btn btn-primary">Update Password</button>
+                            <button class="btn btn-outline-primary">Manage Notifications</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
